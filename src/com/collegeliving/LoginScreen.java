@@ -10,6 +10,7 @@ public class LoginScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_screen);
+		HttpTest http = new HttpTest();
 	}
 
 	@Override
