@@ -4,5 +4,6 @@
     <string name="app_name">CollegeLiving</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="httptest">This will be replaced by response text.</string>
 
 </resources>
