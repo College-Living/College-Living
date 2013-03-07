@@ -20,6 +20,7 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 	
 	private JSONObject data;
 	private ServerCallback callback;
+	final String server_ip = "149.47.177.209";
 	
 	public ServerPost(JSONObject data, ServerCallback callback) {
 		super();
@@ -29,28 +30,21 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 	
 	protected String doInBackground(String... params) {
 		String url = params[0];
+		String responseString = "";
 		HttpClient http = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://149.47.177.209/"+url);
+		HttpPost post = new HttpPost("http://"+this.server_ip+"/"+url);
 		try {
 			post.setEntity(new StringEntity(this.data.toString(), "UTF-8"));
+			post.setHeader("Content-type", "application/json");
+			HttpResponse response = http.execute(post);
+			responseString = EntityUtils.toString(response.getEntity());
 		} catch (UnsupportedEncodingException e) {
 			Log.e(e.getClass().getName(), e.getMessage());
-		}
-		post.setHeader("Content-type", "application/json");
-		HttpResponse response = null;
-		try {
-			response = http.execute(post);
 		} catch (ClientProtocolException e) {
 			Log.e(e.getClass().getName(), e.getMessage());
 		} catch (IOException e) {
 			Log.e(e.getClass().getName(), e.getMessage());
-		}
-		String responseString = null;
-		try {
-			responseString = EntityUtils.toString(response.getEntity());
 		} catch (ParseException e) {
-			Log.e(e.getClass().getName(), e.getMessage());
-		} catch (IOException e) {
 			Log.e(e.getClass().getName(), e.getMessage());
 		}
 		return responseString;
