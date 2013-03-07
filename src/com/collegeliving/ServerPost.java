@@ -19,9 +19,9 @@ import org.json.*;
 public class ServerPost extends AsyncTask<String, Void, String> {
 	
 	private JSONObject data;
-	private ServerPostRun callback;
+	private ServerCallback callback;
 	
-	public ServerPost(JSONObject data, ServerPostRun callback) {
+	public ServerPost(JSONObject data, ServerCallback callback) {
 		super();
 		this.data = data;
 		this.callback = callback;

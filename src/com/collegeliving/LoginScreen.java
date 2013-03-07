@@ -22,7 +22,7 @@ public class LoginScreen extends Activity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ServerPostRun afterPost = new ServerPostRun() {
+		ServerCallback afterPost = new ServerCallback() {
 			public void Run(String p) {
 				String s;
 				JSONObject response;

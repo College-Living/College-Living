@@ -1,5 +1,5 @@
 package com.collegeliving;
 
-public interface ServerPostRun {
+public interface ServerCallback {
 	public void Run(String p);
 }
