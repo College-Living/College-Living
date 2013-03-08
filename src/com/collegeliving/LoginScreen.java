@@ -1,8 +1,12 @@
 package com.collegeliving;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.*;
@@ -24,20 +28,34 @@ public class LoginScreen extends Activity {
 		}
 		ServerCallback afterPost = new ServerCallback() {
 			public void Run(String p) {
-				String s;
+				JSONArray s;
 				JSONObject response;
+				String si = "";
+				ArrayList<ImageView> thumbnails = new ArrayList<ImageView>();
+				ImageView view = null;
 				try {
 					response = new JSONObject(p);
-					s = response.getString("title");
-					TextView t = (TextView) currentActivity.findViewById(R.id.HttpTest);
-					t.setText(s);
+					s = response.getJSONArray("urls");
+					for(int i = 0; i < s.length(); i++) {
+						si = s.getString(i);
+						view = new ImageView(currentActivity);
+						thumbnails.add(view);
+						new DownloadImage(view).execute(si);
+						RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+							    RelativeLayout.LayoutParams.WRAP_CONTENT,
+							    RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+						currentActivity.addContentView(view, lp);
+					}
+					//TextView t = (TextView) currentActivity.findViewById(R.id.HttpTest);
+					//t.setText(si);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				return;
 			}
 		};
-		new ServerPost(data, afterPost).execute("test.php");
+		new ServerPost(null, afterPost).execute("collegeliving/getpics.php");
 	}
 
 	@Override

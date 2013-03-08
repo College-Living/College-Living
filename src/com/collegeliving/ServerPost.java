@@ -18,7 +18,7 @@ import org.json.*;
 
 public class ServerPost extends AsyncTask<String, Void, String> {
 	
-	private JSONObject data;
+	private JSONObject data = null;
 	private ServerCallback callback;
 	final String server_ip = "149.47.177.209";
 	
@@ -34,8 +34,10 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 		HttpClient http = new DefaultHttpClient();
 		HttpPost post = new HttpPost("http://"+this.server_ip+"/"+url);
 		try {
-			post.setEntity(new StringEntity(this.data.toString(), "UTF-8"));
-			post.setHeader("Content-type", "application/json");
+			if(this.data != null) {
+				post.setEntity(new StringEntity(this.data.toString(), "UTF-8"));
+				post.setHeader("Content-type", "application/json");
+			}
 			HttpResponse response = http.execute(post);
 			responseString = EntityUtils.toString(response.getEntity());
 		} catch (UnsupportedEncodingException e) {
