@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,25 +31,15 @@ public class LoginScreen extends Activity {
 			public void Run(String p) {
 				JSONArray s;
 				JSONObject response;
-				String si = "";
-				ArrayList<ImageView> thumbnails = new ArrayList<ImageView>();
-				ImageView view = null;
+				GridView gridView = (GridView) currentActivity.findViewById(R.id.grid);
+				ArrayList<String> urls = new ArrayList<String>();
 				try {
 					response = new JSONObject(p);
 					s = response.getJSONArray("urls");
 					for(int i = 0; i < s.length(); i++) {
-						si = s.getString(i);
-						view = new ImageView(currentActivity);
-						thumbnails.add(view);
-						new DownloadImage(view).execute(si);
-						RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-							    RelativeLayout.LayoutParams.WRAP_CONTENT,
-							    RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-						currentActivity.addContentView(view, lp);
+						urls.add(s.getString(i));
 					}
-					//TextView t = (TextView) currentActivity.findViewById(R.id.HttpTest);
-					//t.setText(si);
+					gridView.setAdapter(new URIGridAdapter(currentActivity, urls));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

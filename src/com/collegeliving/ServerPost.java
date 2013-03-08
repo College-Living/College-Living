@@ -28,6 +28,7 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 		this.callback = callback;
 	}
 	
+	@Override
 	protected String doInBackground(String... params) {
 		String url = params[0];
 		String responseString = "";
@@ -52,8 +53,10 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 		return responseString;
 	}
 	
+	@Override
 	protected void onPostExecute(String param) {
 		this.callback.Run(param);
 	}
+
 	
 }

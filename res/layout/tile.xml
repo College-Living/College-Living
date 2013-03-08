@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="top"
+            android:contentDescription="Test" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:background="#48FFFFFF"
+            android:layout_gravity="top">
+            <TextView 
+             android:id="@+id/info_caption"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:textSize="14sp"
+             android:paddingLeft="2dp"
+             android:text="User Display Name" 
+             android:layout_gravity="center"
+               />
+        </LinearLayout>
+</FrameLayout>

@@ -2,24 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_screen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".LoginScreen" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
-    <TextView
-        android:id="@+id/HttpTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:text="@string/httptest"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <GridView
+    android:id="@+id/grid"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:horizontalSpacing="0dp"
+    android:verticalSpacing="0dp"
+    android:stretchMode="none"
+    android:numColumns="5"
+    android:columnWidth="40dp">
+	</GridView>
 
 </RelativeLayout>
