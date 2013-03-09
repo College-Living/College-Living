@@ -12,7 +12,7 @@
     android:verticalSpacing="0dp"
     android:stretchMode="none"
     android:numColumns="5"
-    android:columnWidth="40dp">
+    android:columnWidth="80dp">
 	</GridView>
 
 </RelativeLayout>

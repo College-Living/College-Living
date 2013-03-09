@@ -55,10 +55,8 @@ public class URIGridAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		FrameLayout frame;
 		if(convertView != null) frame = (FrameLayout) convertView;
-		else frame = (FrameLayout) this.inflater.inflate(R.layout.tile, null);
-		
-		frame.setLayoutParams(new GridView.LayoutParams(40, 40));
-		
+		else frame = (FrameLayout) this.inflater.inflate(R.layout.tile, parent, false);
+				
 		ImageView view = (ImageView) frame.findViewById(R.id.thumbnail);
 		TextView text = (TextView) frame.findViewById(R.id.info_caption);
 		

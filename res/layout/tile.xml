@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="80dp"
+    android:layout_height="80dp">
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="fill_parent"
@@ -13,7 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="20dp"
             android:background="#48FFFFFF"
-            android:layout_gravity="top">
+            android:layout_gravity="bottom">
             <TextView 
              android:id="@+id/info_caption"
              android:layout_width="fill_parent"
