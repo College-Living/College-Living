@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="banner_bg">#ff39667d</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="login_bg">#ff286e91</color>
+    <color name="seethru_black">#22000000</color>
+</resources>

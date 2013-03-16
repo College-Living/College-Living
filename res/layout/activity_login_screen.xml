@@ -2,17 +2,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_screen"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     tools:context=".LoginScreen" >
-    <GridView
-    android:id="@+id/grid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:horizontalSpacing="0dp"
-    android:verticalSpacing="0dp"
-    android:stretchMode="none"
-    android:numColumns="5"
-    android:columnWidth="80dp">
-	</GridView>
+
+    <LinearLayout
+        android:id="@+id/banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/banner_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="40dp"
+            android:paddingTop="40dp"
+            android:text="College Living"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+             />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/banner"
+        android:orientation="vertical" 
+        android:background="@color/login_bg"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/box" >
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="E-mail"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null" />
+           	  <requestFocus />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:singleLine="true"
+                android:textCursorDrawable="@null" >
+
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/remember_me"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Remember Me"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:text="Log In"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Register Account"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </RelativeLayout>

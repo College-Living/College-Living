@@ -13,13 +13,16 @@ import android.widget.TextView;
 import org.json.*;
 
 public class LoginScreen extends Activity {
-	private Activity currentActivity;
-	
+	private final Activity currentActivity;
+
+	public LoginScreen() {
+		super();
+		currentActivity = this;
+	}
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_screen);
 		JSONObject data = new JSONObject();
-		currentActivity = this;
 		try {
 			data.put("first_name", "Derek");
 			data.put("last_name", "Overlock");
@@ -27,7 +30,7 @@ public class LoginScreen extends Activity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ServerCallback afterPost = new ServerCallback() {
+		/* ServerCallback afterPost = new ServerCallback() {
 			public void Run(String p) {
 				JSONArray s;
 				JSONObject response;
@@ -46,7 +49,7 @@ public class LoginScreen extends Activity {
 				return;
 			}
 		};
-		new ServerPost(null, afterPost).execute("collegeliving/getpics.php");
+		new ServerPost(null, afterPost).execute("collegeliving/getpics.php"); */
 	}
 
 	@Override
