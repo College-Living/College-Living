@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -21,5 +21,10 @@
         
         
     </style>
-
+	<style name="Input_field">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHint">#FFFFFFFF</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:paddingTop">20dp</item>
+    </style>
 </resources>
