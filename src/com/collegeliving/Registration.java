@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -101,7 +102,8 @@ public class Registration extends Activity {
 	
 	public JSONObject getFormInput() {
 		JSONObject json = new JSONObject();
-		
+		EditText email = (EditText) findViewById(R.id.email);
+		EditText password = (EditText) findViewById(R.id.password);
 		
 		return json;
 	}
