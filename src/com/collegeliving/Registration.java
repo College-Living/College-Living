@@ -27,12 +27,12 @@ public class Registration extends Activity {
 	public Registration() {
 		super();
 		currentActivity = this;
-		setRegisterBtn();
 	}
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
 		getQuestionnaire();
+		setRegisterBtn();
 	}
 
 	@Override
@@ -68,24 +68,24 @@ public class Registration extends Activity {
 					
 				}
 			}
-			
-			public ArrayList<QuestionOption> parseOptions(JSONArray opts) {
-				ArrayList<QuestionOption> options = new ArrayList<QuestionOption>();
-				for(int i = 0; i < opts.length(); i++) {
-					try {
-						JSONObject o = opts.getJSONObject(i);
-						String option = o.getString("option");
-						int value = o.getInt("value");
-						options.add(new QuestionOption(option, value));
-					} catch(JSONException e) {
-					
-					}
-				}
-				return options;
-			}
 		};
 		new ServerPost(null, callback).execute("/collegeliving/get/questionnaire.php");
 	
+	}
+	
+	public ArrayList<QuestionOption> parseOptions(JSONArray opts) {
+		ArrayList<QuestionOption> options = new ArrayList<QuestionOption>();
+		for(int i = 0; i < opts.length(); i++) {
+			try {
+				JSONObject o = opts.getJSONObject(i);
+				String option = o.getString("option");
+				int value = o.getInt("value");
+				options.add(new QuestionOption(option, value));
+			} catch(JSONException e) {
+			
+			}
+		}
+		return options;
 	}
 	
 	public void setRegisterBtn() {
