@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-	android:background="@color/login_bg" >
-
+    android:layout_height="fill_parent"
+    android:background="@color/login_bg" >
     
     <!-- User registration input -->
+
     <LinearLayout
+        android:id="@+id/registerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -96,6 +97,21 @@
             android:ems="10"
             android:hint="Phone Number"
             android:inputType="phone" />
+
+        <LinearLayout
+            android:id="@+id/questionBlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submitRegisterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textColor="@color/white" />
 
     </LinearLayout>
     
