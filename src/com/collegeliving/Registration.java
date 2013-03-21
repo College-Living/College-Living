@@ -89,12 +89,18 @@ public class Registration extends Activity {
 	}
 	
 	public void setRegisterBtn() {
-		JSONObject json = getFormInput();
-		
 		Button registerBtn = (Button) findViewById(R.id.submitRegisterBtn);
 		registerBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+				JSONObject json = getFormInput();
+				ServerCallback callback = new ServerCallback() {
+					public void Run(String p) {
+						Log.d("register success", p);
+						
+					}
+					
+				};
+				new ServerPost(json, callback).execute("/collegeliving/post/register.php");
 				
 			}
 		});
@@ -102,9 +108,47 @@ public class Registration extends Activity {
 	
 	public JSONObject getFormInput() {
 		JSONObject json = new JSONObject();
-		EditText email = (EditText) findViewById(R.id.email);
-		EditText password = (EditText) findViewById(R.id.password);
-		
+		try {
+			EditText emailText = (EditText) findViewById(R.id.registration_email);
+			EditText passwordText = (EditText) findViewById(R.id.registration_pw);
+			EditText confirmPasswordText = (EditText) findViewById(R.id.registration_confirm_pw);
+			EditText firstNameText = (EditText) findViewById(R.id.registration_fname);
+			EditText lastNameText = (EditText) findViewById(R.id.registration_lname);
+			EditText displayNameText = (EditText) findViewById(R.id.registration_displayname);
+			EditText phoneText = (EditText) findViewById(R.id.registration_phonenum);
+			String email = emailText.getText().toString();
+			String password = passwordText.getText().toString();
+			String confirmPassword = confirmPasswordText.getText().toString();
+			String firstName = firstNameText.getText().toString();
+			String lastName = lastNameText.getText().toString();
+			String displayName = displayNameText.getText().toString();
+			String phone = phoneText.getText().toString();
+			LinearLayout questions = (LinearLayout) findViewById(R.id.questionBlock);
+			json.put("FirstName", firstName);
+			json.put("LastName", lastName);
+			json.put("Email", email);
+			json.put("DisplayName", displayName);
+			json.put("Password", password);
+			json.put("Phone", phone);
+			JSONArray responses = new JSONArray();
+			for(int i = 0; i < questions.getChildCount(); i++) {
+				JSONObject response = new JSONObject();
+				int qid = i+1;
+				LinearLayout question = (LinearLayout) questions.getChildAt(i);
+				Spinner answer = (Spinner) question.findViewById(R.id.options);
+				QuestionSpinnerAdapter adapter = (QuestionSpinnerAdapter) answer.getAdapter();
+				int index = answer.getSelectedItemPosition();
+				QuestionOption selected = adapter.getItem(index);
+				int ans = selected.value;
+				response.put("qid", qid);
+				response.put("value", ans);
+				responses.put(response);
+				
+	 		}
+			json.put("answers", responses);
+		} catch(JSONException e) {
+			
+		}
 		return json;
 	}
 }
