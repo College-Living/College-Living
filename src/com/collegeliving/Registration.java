@@ -18,15 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.*;
 
 public class Registration extends Activity {
-	private final Registration currentActivity;
-	private JSONArray questions;
+	private ArrayList<Question> questions;
 	public Registration() {
 		super();
-		currentActivity = this;
+		questions = new ArrayList<Question>();
 	}
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,27 +42,18 @@ public class Registration extends Activity {
 		return true;
 	}
 
-	public void getQuestionnaire() {
+	private void getQuestionnaire() {
 		ServerCallback callback = new ServerCallback() {
 			JSONArray questions;
 			public void Run(String Response) {
 				try {
 					questions = new JSONArray(Response);
-					LayoutInflater inflater = (LayoutInflater) currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					LinearLayout view = (LinearLayout) currentActivity.findViewById(R.id.questionBlock);
 					for(int i = 0; i < questions.length(); i++) {
 						JSONObject question = questions.getJSONObject(i);
 						String questionText = question.getString("question");
 						int qid = question.getInt("qid");
-						ArrayList<QuestionOption> options = parseOptions(question.getJSONArray("options"));
-						LinearLayout qBlock = (LinearLayout) inflater.inflate(R.layout.question_block, null);
-						TextView qText = (TextView) qBlock.findViewById(R.id.question);
-						
-						Spinner spinOp = (Spinner) qBlock.findViewById(R.id.options);
-						QuestionSpinnerAdapter adapter = new QuestionSpinnerAdapter(currentActivity, android.R.layout.simple_spinner_item, options);
-						spinOp.setAdapter(adapter);
-						qText.setText(questionText);
-						view.addView(qBlock);
+						ArrayList<Question.QuestionOption> options = parseOptions(question.getJSONArray("options"));
+						addQuestion(questionText, qid, options);
 					}
 				} catch (JSONException e) {
 					
@@ -73,14 +64,21 @@ public class Registration extends Activity {
 	
 	}
 	
-	public ArrayList<QuestionOption> parseOptions(JSONArray opts) {
-		ArrayList<QuestionOption> options = new ArrayList<QuestionOption>();
+	private void addQuestion(String qText, int qid, ArrayList<Question.QuestionOption> options) {
+		LinearLayout view = (LinearLayout) findViewById(R.id.questionBlock);
+		Question q = new Question(qid, qText, options, this);
+		questions.add(q);
+		view.addView(q.getGUI());
+	}
+	
+	private ArrayList<Question.QuestionOption> parseOptions(JSONArray opts) {
+		ArrayList<Question.QuestionOption> options = new ArrayList<Question.QuestionOption>();
 		for(int i = 0; i < opts.length(); i++) {
 			try {
 				JSONObject o = opts.getJSONObject(i);
 				String option = o.getString("option");
 				int value = o.getInt("value");
-				options.add(new QuestionOption(option, value));
+				options.add(new Question.QuestionOption(option, value));
 			} catch(JSONException e) {
 			
 			}
@@ -88,25 +86,32 @@ public class Registration extends Activity {
 		return options;
 	}
 	
-	public void setRegisterBtn() {
+	private void setRegisterBtn() {
 		Button registerBtn = (Button) findViewById(R.id.submitRegisterBtn);
 		registerBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				JSONObject json = getFormInput();
-				ServerCallback callback = new ServerCallback() {
-					public void Run(String p) {
-						Log.d("register success", p);
-						
-					}
-					
-				};
-				new ServerPost(json, callback).execute("/collegeliving/post/register.php");
-				
+				registerUser();
 			}
 		});
 	}
 	
-	public JSONObject getFormInput() {
+	private void registerUser() {
+		if(validateFormInput()) {
+			JSONObject json = getFormInput();
+			ServerCallback registerResponse = new ServerCallback() {
+				public void Run(String p) {
+					
+				}
+			};
+			new ServerPost(json, registerResponse).execute("/collegeliving/post/register.php");
+		}
+	}
+	
+	private boolean validateFormInput() {
+		return true;
+	}
+	
+	private JSONObject getFormInput() {
 		JSONObject json = new JSONObject();
 		try {
 			EditText emailText = (EditText) findViewById(R.id.registration_email);
@@ -119,11 +124,14 @@ public class Registration extends Activity {
 			String email = emailText.getText().toString();
 			String password = passwordText.getText().toString();
 			String confirmPassword = confirmPasswordText.getText().toString();
+			if(!password.equals(confirmPassword)) {
+				Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_LONG).show();
+				return null;
+			}
 			String firstName = firstNameText.getText().toString();
 			String lastName = lastNameText.getText().toString();
 			String displayName = displayNameText.getText().toString();
 			String phone = phoneText.getText().toString();
-			LinearLayout questions = (LinearLayout) findViewById(R.id.questionBlock);
 			json.put("FirstName", firstName);
 			json.put("LastName", lastName);
 			json.put("Email", email);
@@ -131,15 +139,11 @@ public class Registration extends Activity {
 			json.put("Password", password);
 			json.put("Phone", phone);
 			JSONArray responses = new JSONArray();
-			for(int i = 0; i < questions.getChildCount(); i++) {
+			for(int i = 0; i < questions.size(); i++) {
+				Question q = questions.get(i);
+				int qid = q.getQid();
+				int ans = q.getAnswer();
 				JSONObject response = new JSONObject();
-				int qid = i+1;
-				LinearLayout question = (LinearLayout) questions.getChildAt(i);
-				Spinner answer = (Spinner) question.findViewById(R.id.options);
-				QuestionSpinnerAdapter adapter = (QuestionSpinnerAdapter) answer.getAdapter();
-				int index = answer.getSelectedItemPosition();
-				QuestionOption selected = adapter.getItem(index);
-				int ans = selected.value;
 				response.put("qid", qid);
 				response.put("value", ans);
 				responses.put(response);

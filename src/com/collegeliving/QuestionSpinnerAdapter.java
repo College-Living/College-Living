@@ -13,15 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class QuestionSpinnerAdapter extends ArrayAdapter<QuestionOption>{
+public class QuestionSpinnerAdapter extends ArrayAdapter<Question.QuestionOption>{
 
     // Your sent context
     private Context context;
     // Your custom values for the spinner (User)
-    private ArrayList<QuestionOption> options;
+    private ArrayList<Question.QuestionOption> options;
 
     public QuestionSpinnerAdapter(Context context, int textViewResourceId,
-            ArrayList<QuestionOption> options) {
+            ArrayList<Question.QuestionOption> options) {
         super(context, textViewResourceId);
         this.context = context;
         this.options = options;
@@ -31,7 +31,7 @@ public class QuestionSpinnerAdapter extends ArrayAdapter<QuestionOption>{
        return options.size();
     }
 
-    public QuestionOption getItem(int position){
+    public Question.QuestionOption getItem(int position){
        return options.get(position);
     }
 
@@ -49,7 +49,7 @@ public class QuestionSpinnerAdapter extends ArrayAdapter<QuestionOption>{
         label.setTextColor(Color.WHITE);
         // Then you can get the current item using the values array (Users array) and the current position
         // You can NOW reference each method you has created in your bean object (User class)
-        QuestionOption opt = options.get(position);
+        Question.QuestionOption opt = options.get(position);
         label.setText(opt.option);
 
         // And finally return your dynamic (or custom) view for each spinner item
@@ -65,7 +65,7 @@ public class QuestionSpinnerAdapter extends ArrayAdapter<QuestionOption>{
         label.setTextColor(Color.BLACK);
         // Then you can get the current item using the values array (Users array) and the current position
         // You can NOW reference each method you has created in your bean object (User class)
-        QuestionOption opt = options.get(position);
+        Question.QuestionOption opt = options.get(position);
 		label.setText(opt.option);
         
         return label;
