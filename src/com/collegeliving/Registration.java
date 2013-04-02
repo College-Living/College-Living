@@ -99,39 +99,91 @@ public class Registration extends Activity {
 		if(validateFormInput()) {
 			JSONObject json = getFormInput();
 			ServerCallback registerResponse = new ServerCallback() {
-				public void Run(String p) {
-					
+				public void Run(String response) {
+					JSONObject json;
+					try {
+						json = new JSONObject(response);
+						boolean success = json.getBoolean("success");
+						String message = json.getString("message");
+						if(success) { }
+							// change to login screen
+						else
+							showRegisterError(message);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			};
 			new ServerPost(json, registerResponse).execute("/collegeliving/post/register.php");
 		}
 	}
 	
+	private void showRegisterError(String error) {
+		Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+	}
+	
 	private boolean validateFormInput() {
+		String email = getEmail();
+		String password = getPassword();
+		String confirmPassword = getConfirmPassword();
+		String firstName = getFirstName();
+		String lastName = getLastName();
+		String displayName = getDisplayName();
+		String phone = getPhoneNumber();
+		if(!password.equals(confirmPassword)) {
+			Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
+			return false;
+		}
 		return true;
+	}
+	
+	private String getEmail() {
+		EditText emailText = (EditText) findViewById(R.id.registration_email);
+		return emailText.getText().toString();
+	}
+	
+	private String getFirstName() {
+		EditText firstNameText = (EditText) findViewById(R.id.registration_fname);
+		return firstNameText.getText().toString();
+	}
+	
+	private String getLastName() {
+		EditText lastNameText = (EditText) findViewById(R.id.registration_lname);
+		return lastNameText.getText().toString();
+	}
+	
+	private String getDisplayName() {
+		EditText displayNameText = (EditText) findViewById(R.id.registration_displayname);
+		return displayNameText.getText().toString();
+	}
+	
+	private String getPhoneNumber() {
+		EditText phoneText = (EditText) findViewById(R.id.registration_phonenum);
+		return phoneText.getText().toString();
+	}
+	
+	private String getPassword() {
+		EditText passwordText = (EditText) findViewById(R.id.registration_pw);
+		return passwordText.getText().toString();
+		
+	}
+	
+	private String getConfirmPassword() {
+		EditText confirmPasswordText = (EditText) findViewById(R.id.registration_confirm_pw);
+		return confirmPasswordText.getText().toString();
 	}
 	
 	private JSONObject getFormInput() {
 		JSONObject json = new JSONObject();
 		try {
-			EditText emailText = (EditText) findViewById(R.id.registration_email);
-			EditText passwordText = (EditText) findViewById(R.id.registration_pw);
-			EditText confirmPasswordText = (EditText) findViewById(R.id.registration_confirm_pw);
-			EditText firstNameText = (EditText) findViewById(R.id.registration_fname);
-			EditText lastNameText = (EditText) findViewById(R.id.registration_lname);
-			EditText displayNameText = (EditText) findViewById(R.id.registration_displayname);
-			EditText phoneText = (EditText) findViewById(R.id.registration_phonenum);
-			String email = emailText.getText().toString();
-			String password = passwordText.getText().toString();
-			String confirmPassword = confirmPasswordText.getText().toString();
-			if(!password.equals(confirmPassword)) {
-				Toast.makeText(this, "Passwords do not match.", Toast.LENGTH_LONG).show();
-				return null;
-			}
-			String firstName = firstNameText.getText().toString();
-			String lastName = lastNameText.getText().toString();
-			String displayName = displayNameText.getText().toString();
-			String phone = phoneText.getText().toString();
+			String email = getEmail();
+			String password = getPassword();
+			String confirmPassword = getConfirmPassword();
+			String firstName = getFirstName();
+			String lastName = getLastName();
+			String displayName = getDisplayName();
+			String phone = getPhoneNumber();
 			json.put("FirstName", firstName);
 			json.put("LastName", lastName);
 			json.put("Email", email);
