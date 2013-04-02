@@ -6,7 +6,7 @@
     tools:context=".mainScreen" >
 
     <LinearLayout
-		android:id="@+id/banner"
+        android:id="@+id/banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,33 +16,155 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/banner_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="40dp"
-            android:paddingTop="40dp"
+            android:paddingBottom="49dp"
+            android:paddingTop="49dp"
             android:text="College Living"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
-            android:textSize="30sp"
-	 />
-    > </LinearLayout>
+            android:textSize="40sp" />
+    > 
+    </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/roomie_tile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/banner"
-		android:background="@color/banner_bg"
+        android:background="@color/roomies_red"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/roomies_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="28dp"
+            android:paddingRight="15dp"
+            android:paddingTop="28dp"
+            android:text="Roomies"
+            android:textColor="#ff000000"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:src="@drawable/user" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pads_tile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/roomie_tile"
+        android:background="@color/pads_orange"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/pads_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:text="Roomies" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:paddingBottom="28dp"
+            android:paddingRight="15dp"
+            android:paddingTop="28dp"
+            android:text="Pads"
+            android:textColor="#ff000000"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:src="@drawable/pin" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profile_tile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/pads_tile"
+        android:background="@color/my_profile_yellow"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:paddingBottom="28dp"
+            android:paddingRight="15dp"
+            android:paddingTop="28dp"
+            android:text="My Profile"
+            android:textColor="#ff000000"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/myprofile" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/setting_tile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/profile_tile"
+        android:background="@color/settings_blue"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/setting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:paddingBottom="28dp"
+            android:paddingRight="15dp"
+            android:paddingTop="28dp"
+            android:text="Settings"
+            android:textColor="#ff000000"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:src="@drawable/gear" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
