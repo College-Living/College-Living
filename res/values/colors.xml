@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="login_bg">#ff286e91</color>
     <color name="seethru_black">#22000000</color>
+	<color name="roomies_red">#ffff2c38</color>
+	<color name="pads_orange">#ffff9838</color>
+	<color name="my_profile_yellow">#fffff040</color>
+	<color name="settings_blue">#ff67d9ff</color>
 </resources>
