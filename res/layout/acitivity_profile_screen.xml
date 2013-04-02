@@ -1,12 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/black" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </LinearLayout>
-    
 
-</HorizontalScrollView>
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="43dp"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText1"
+            android:layout_below="@+id/editText1"
+            android:ems="10"
+            android:hint="Displayname"
+            android:inputType="textPersonName" >
+
+             />
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText2"
+            android:layout_below="@+id/editText2"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText3"
+            android:layout_below="@+id/editText3"
+            android:ems="10" 
+            android:hint="Search Radius" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText4"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="27dp"
+            android:text="Back" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/back_button"
+            android:layout_alignBottom="@+id/back_button"
+            android:layout_alignRight="@+id/editText4"
+            android:text="Log out" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
