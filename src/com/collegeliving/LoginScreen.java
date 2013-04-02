@@ -54,6 +54,8 @@ public class LoginScreen extends Activity {
 		};
 		new ServerPost(null, afterPost).execute("collegeliving/getpics.php"); */
 		setRegisterBtn();
+	
+		setLoginBtn();
 	}
 
 	@Override
@@ -73,4 +75,16 @@ public class LoginScreen extends Activity {
 		});
 	}
 
+
+	public void setLoginBtn() {
+		Button loginBtn = (Button) findViewById(R.id.loginBtn);
+		loginBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent loginActivity = new Intent(v.getContext(), Login.class);
+				startActivity(loginActivity);
+			}
+		});
+	}
+
+	
 }
