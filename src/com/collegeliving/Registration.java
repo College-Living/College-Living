@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -105,9 +106,9 @@ public class Registration extends Activity {
 						json = new JSONObject(response);
 						boolean success = json.getBoolean("success");
 						String message = json.getString("message");
-						if(success) { }
-							// change to login screen
-						else
+						if(success) { 
+							registerSuccess();
+						} else
 							showRegisterError(message);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -117,6 +118,10 @@ public class Registration extends Activity {
 			};
 			new ServerPost(json, registerResponse).execute("/collegeliving/post/register.php");
 		}
+	}
+	
+	private void registerSuccess() {
+		this.finish();
 	}
 	
 	private void showRegisterError(String error) {
@@ -131,8 +136,25 @@ public class Registration extends Activity {
 		String lastName = getLastName();
 		String displayName = getDisplayName();
 		String phone = getPhoneNumber();
-		if(!password.equals(confirmPassword)) {
+		String emailPattern = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+		
+		if(!email.matches(emailPattern)) {
+			Toast.makeText(this, "Invalid e-mail address", Toast.LENGTH_LONG).show();
+			return false;
+		} else if(password.isEmpty()) {
+			Toast.makeText(this, "Please enter a password", Toast.LENGTH_LONG).show();
+			return false;
+		} else if(!password.equals(confirmPassword)) {
 			Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
+			return false;
+		} else if(firstName.isEmpty() || lastName.isEmpty()) {
+			Toast.makeText(this, "Please enter your name", Toast.LENGTH_LONG).show();
+			return false;
+		} else if(displayName.isEmpty()) {
+			Toast.makeText(this, "Please enter a display name", Toast.LENGTH_LONG).show();
+			return false;
+		} else if(phone.isEmpty()) {
+			Toast.makeText(this, "Please enter a phone number", Toast.LENGTH_LONG).show();
 			return false;
 		}
 		return true;
