@@ -90,8 +90,8 @@ public class LoginScreen extends Activity {
 	}
 
 	private void login() {
-		EditText emailText = (EditText) findViewById(R.id.registration_email);
-		EditText passwordText = (EditText) findViewById(R.id.registration_pw);
+		EditText emailText = (EditText) findViewById(R.id.email);
+		EditText passwordText = (EditText) findViewById(R.id.password);
 		String email = emailText.getText().toString();
 		String password = passwordText.getText().toString();
 		JSONObject json = new JSONObject();
