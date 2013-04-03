@@ -3,7 +3,8 @@
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context=".mainScreen" >
+    tools:context=".mainScreen" 
+    android:weightSum="5" >
 
     <LinearLayout
         android:id="@+id/banner"
@@ -13,15 +14,17 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@color/banner_bg"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_weight="1" 
+        >
 
         <TextView
             android:id="@+id/banner_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingBottom="49dp"
-            android:paddingTop="49dp"
+            android:paddingBottom="32dp"
+            android:paddingTop="32dp"
             android:text="College Living"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
@@ -37,7 +40,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/banner"
         android:background="@color/roomies_red"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_weight="1" 
+        >
 
         <TextView
             android:id="@+id/roomies_text"
@@ -70,7 +75,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/roomie_tile"
         android:background="@color/pads_orange"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:layout_weight="1"
+        >
 
         <TextView
             android:id="@+id/pads_text"
@@ -105,7 +112,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/pads_tile"
         android:background="@color/my_profile_yellow"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:layout_weight="1"
+        >
 
         <TextView
             android:id="@+id/profile_text"
@@ -140,7 +149,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/profile_tile"
         android:background="@color/settings_blue"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:layout_weight="1"
+        >
 
         <TextView
             android:id="@+id/setting_text"

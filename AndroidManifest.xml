@@ -18,17 +18,24 @@
             android:label="@string/app_name" 
             android:theme="@style/NoActionBar"
         >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.collegeliving.Registration"
             android:label="@string/app_name" 
             android:theme="@style/NoActionBar"
         >
+        </activity>
+        <activity
+            android:name="com.collegeliving.MainScreen"
+            android:label="@string/app_name" 
+            android:theme="@style/NoActionBar"
+            
+        >
+		<intent-filter>
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.LAUNCHER" />
+		</intent-filter>
         </activity>
     </application>
 
