@@ -8,16 +8,18 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.*;
 
 public class LoginScreen extends Activity {
 	private final Activity currentActivity;
-
+	
 	public LoginScreen() {
 		super();
 		currentActivity = this;
@@ -25,6 +27,8 @@ public class LoginScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_screen);
+		
+		
 		/* JSONObject data = new JSONObject();
 		try {
 			data.put("first_name", "Derek");
@@ -80,11 +84,56 @@ public class LoginScreen extends Activity {
 		Button loginBtn = (Button) findViewById(R.id.loginBtn);
 		loginBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent loginActivity = new Intent(v.getContext(), Login.class);
-				startActivity(loginActivity);
+				login();
 			}
 		});
 	}
 
+	private void login() {
+		EditText emailText = (EditText) findViewById(R.id.registration_email);
+		EditText passwordText = (EditText) findViewById(R.id.registration_pw);
+		String email = emailText.getText().toString();
+		String password = passwordText.getText().toString();
+		JSONObject json = new JSONObject();
+		ServerCallback callback = new ServerCallback() {
+
+			@Override
+			public void Run(String response) {
+				// TODO Auto-generated method stub
+				try {
+					JSONObject json = new JSONObject(response);
+					boolean success = json.getBoolean("success");
+					String userID = json.getString("userID");
+					if(success) {
+						//set user id in user preference 
+						loginSuccessful();
+					} else
+						showLoginError();
+				} catch (JSONException e){
+					e.printStackTrace();
+				}
+			}
+			
+		};
+		try {
+			json.put("email", email);
 	
+			json.put("password", password);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		new ServerPost(json, callback).execute("/collegeliving/post/login.php");
+		
+		
+	}
+
+
+	private void loginSuccessful(){
+		Intent home = new Intent(this,MainScreen.class);
+		startActivity(home);
+	}
+
+	private void showLoginError(){
+		Toast.makeText(this, "Invaild Email or Password", Toast.LENGTH_LONG).show();
+	}
 }
