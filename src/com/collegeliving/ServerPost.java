@@ -55,7 +55,8 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 	
 	@Override
 	protected void onPostExecute(String param) {
-		this.callback.Run(param);
+		if(this.callback != null)
+			this.callback.Run(param);
 	}
 
 	

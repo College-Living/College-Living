@@ -12,14 +12,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.*;
 
-public class MainScreen extends Activity {
+public class MainScreen extends LocationActivity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
+		Toast.makeText(this, String.valueOf(this.getLoggedInUser()), Toast.LENGTH_LONG).show();
 	}
 
 	@Override
