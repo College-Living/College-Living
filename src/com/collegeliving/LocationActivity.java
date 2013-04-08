@@ -124,12 +124,16 @@ public abstract class LocationActivity extends Activity implements LocationListe
 			JSONObject json = new JSONObject();
 			json.put("lat", this.getLatitude());
 			json.put("long", this.getLongitude());
-			json.put("uid", 1);
+			json.put("uid", getLoggedInUser());
 			new ServerPost(json, null).execute(URL);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void onBackPressed() {
+
 	}
 
 }
