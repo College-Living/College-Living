@@ -109,4 +109,8 @@ public class LoginScreen extends Activity {
 	private void showLoginError(){
 		Toast.makeText(this, "Invaild Email or Password", Toast.LENGTH_LONG).show();
 	}
+	
+	public void onBackPressed() {
+		
+	}
 }

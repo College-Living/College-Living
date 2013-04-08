@@ -131,9 +131,5 @@ public abstract class LocationActivity extends Activity implements LocationListe
 		}
 		
 	}
-	
-	public void onBackPressed() {
-
-	}
 
 }

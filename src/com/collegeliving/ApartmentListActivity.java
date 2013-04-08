@@ -2,6 +2,7 @@ package com.collegeliving;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class ApartmentListActivity extends LocationActivity {
@@ -38,5 +39,19 @@ public class ApartmentListActivity extends LocationActivity {
 			negLon = -d/r + Math.toRadians(lon);
 		}
 		return posLon;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+	    switch (item.getItemId()) 
+	    {
+	    case android.R.id.home: 
+	        onBackPressed();
+	        break;
+
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	    return true;
 	}
 }
