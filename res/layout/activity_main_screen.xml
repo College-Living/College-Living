@@ -1,48 +1,43 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context=".mainScreen" 
-    android:weightSum="5" >
+    android:orientation="vertical"
+    android:weightSum="100"
+    tools:context=".mainScreen" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/banner_bg"
-        android:orientation="vertical"
-        android:layout_weight="1" 
-        >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/banner_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="32dp"
-            android:paddingTop="32dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp"
             android:text="College Living"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
             android:textSize="40sp" />
+
     > 
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/roomie_tile"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/banner"
         android:background="@color/roomies_red"
-        android:orientation="horizontal" 
-        android:layout_weight="1" 
-        >
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="20" >
 
         <TextView
             android:id="@+id/roomies_text"
@@ -70,14 +65,10 @@
     <RelativeLayout
         android:id="@+id/pads_tile"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/roomie_tile"
+		android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/pads_orange"
-        android:orientation="vertical" 
-        android:layout_weight="1"
-        >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/pads_text"
@@ -101,20 +92,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
             android:src="@drawable/pin" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/profile_tile"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/pads_tile"
+		android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/my_profile_yellow"
-        android:orientation="vertical" 
-        android:layout_weight="1"
-        >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/profile_text"
@@ -138,20 +124,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:src="@drawable/myprofile" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/setting_tile"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/profile_tile"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/settings_blue"
-        android:orientation="vertical" 
-        android:layout_weight="1"
-        >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/setting_text"
@@ -175,7 +156,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
             android:src="@drawable/gear" />
-
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

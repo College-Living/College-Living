@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -18,47 +19,12 @@ import android.widget.Toast;
 import org.json.*;
 
 public class LoginScreen extends Activity {
-	private final Activity currentActivity;
 	
-	public LoginScreen() {
-		super();
-		currentActivity = this;
-	}
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_screen);
-		
-		
-		/* JSONObject data = new JSONObject();
-		try {
-			data.put("first_name", "Derek");
-			data.put("last_name", "Overlock");
-			data.put("age", 20);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		 ServerCallback afterPost = new ServerCallback() {
-			public void Run(String p) {
-				JSONArray s;
-				JSONObject response;
-				GridView gridView = (GridView) currentActivity.findViewById(R.id.grid);
-				ArrayList<String> urls = new ArrayList<String>();
-				try {
-					response = new JSONObject(p);
-					s = response.getJSONArray("urls");
-					for(int i = 0; i < s.length(); i++) {
-						urls.add(s.getString(i));
-					}
-					gridView.setAdapter(new URIGridAdapter(currentActivity, urls));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				return;
-			}
-		};
-		new ServerPost(null, afterPost).execute("collegeliving/getpics.php"); */
 		setRegisterBtn();
-	
 		setLoginBtn();
 	}
 
@@ -103,9 +69,9 @@ public class LoginScreen extends Activity {
 				try {
 					JSONObject json = new JSONObject(response);
 					boolean success = json.getBoolean("success");
-					String userID = json.getString("userID");
+					int userID = Integer.parseInt(json.getString("userID"));
 					if(success) {
-						//set user id in user preference 
+						saveUserID(userID);
 						loginSuccessful();
 					} else
 						showLoginError();
@@ -127,6 +93,13 @@ public class LoginScreen extends Activity {
 		
 	}
 
+	private void saveUserID(int uid) {
+		String USERPREF = "UserSharedPreferences";
+		SharedPreferences userShared = getSharedPreferences(USERPREF, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor edit = userShared.edit();
+		edit.putInt("UID", uid);
+		edit.commit();
+	}
 
 	private void loginSuccessful(){
 		Intent home = new Intent(this,MainScreen.class);
@@ -135,5 +108,9 @@ public class LoginScreen extends Activity {
 
 	private void showLoginError(){
 		Toast.makeText(this, "Invaild Email or Password", Toast.LENGTH_LONG).show();
+	}
+	
+	public void onBackPressed() {
+		
 	}
 }
