@@ -8,36 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText1"
-            android:layout_below="@+id/editText1"
-            android:ems="10"
-            android:hint="Displayname"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText2"
-            android:layout_below="@+id/editText2"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/editText4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText3"
-            android:layout_below="@+id/editText3"
-            android:ems="10"
-            android:hint="Search Radius" />
+        android:layout_height="wrap_content" >
 
         <EditText
             android:id="@+id/Email_setting"
@@ -47,61 +18,112 @@
             android:layout_alignParentTop="true"
             android:ems="10"
             android:hint="E-mail"
+            android:textColor="@color/white"
             android:inputType="textEmailAddress" />
 
         <TextView
             android:id="@+id/Email_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editText1"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/editText1"
+            android:layout_centerVertical="true"
             android:text="Email"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/DisplayName_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText2"
-            android:layout_alignBottom="@+id/editText2"
-            android:layout_alignParentLeft="true"
-            android:text="DisplayName" 
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/Password_textView"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/Radius_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText3"
-            android:layout_alignBottom="@+id/editText3"
-            android:layout_alignParentLeft="true"
-            android:text="Password" 
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            />
+            android:hint="Search Radius" />
 
         <TextView
             android:id="@+id/Radius_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/editText4"
-            android:layout_alignBottom="@+id/editText4"
             android:layout_alignParentLeft="true"
-            android:text="Radius" 
+            android:layout_centerVertical="true"
+            android:text="Radius"
             android:textColor="@color/white"
             android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/DisplayName_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="DisplayName"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/DisplayName_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:textColor="@color/white"
+            android:hint="Displayname"
+            android:inputType="textPersonName" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/Password_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/Password_setting"
+            android:layout_alignBottom="@+id/Password_setting"
+            android:layout_alignParentLeft="true"
+            android:text="Password"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/Password_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="*******"
+            android:textColor="@color/white"
+            android:inputType="textPassword" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="62dp"
-            android:layout_toRightOf="@+id/Email_textview"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="Log out" />
 
     </RelativeLayout>
