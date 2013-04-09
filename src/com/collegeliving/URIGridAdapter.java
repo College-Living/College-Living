@@ -18,19 +18,22 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 public class URIGridAdapter extends BaseAdapter {
 
 	private ImageThumb images[];
+	private ArrayList<ApartmentList.Apartment> apartments;
 	private LayoutInflater inflater;
 	private DownloadImagesTask downloadTask;
 	
-	public URIGridAdapter(Context c, ArrayList<String> urls) {
+	public URIGridAdapter(Context c, ArrayList<ApartmentList.Apartment> apartments) {
 		this.inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.images = new ImageThumb[urls.size()];
-		for(int i = 0; i < urls.size(); i++) {
-			images[i] = new ImageThumb(urls.get(i), null);
+		this.images = new ImageThumb[apartments.size()];
+		this.apartments = apartments;
+		for(int i = 0; i < apartments.size(); i++) {
+			images[i] = new ImageThumb(apartments.get(i).imageURL, null);
 		}
 		downloadTask = new DownloadImagesTask();
 		downloadTask.execute(images);
@@ -58,7 +61,8 @@ public class URIGridAdapter extends BaseAdapter {
 		else frame = (FrameLayout) this.inflater.inflate(R.layout.tile, parent, false);
 				
 		ImageView view = (ImageView) frame.findViewById(R.id.thumbnail);
-		TextView text = (TextView) frame.findViewById(R.id.info_caption);
+		TextView title = (TextView) frame.findViewById(R.id.info_title);
+		TextView info = (TextView) frame.findViewById(R.id.info_caption);
 		
 		ImageThumb img = images[position];
 		if(img.image != null) {
@@ -67,7 +71,8 @@ public class URIGridAdapter extends BaseAdapter {
 			view.setImageResource(R.drawable.ic_launcher);
 		}
 		
-		text.setText("Test "+Integer.toString(position));
+		title.setText(apartments.get(position).displayName);
+		info.setText(apartments.get(position).distance);
 
 		return frame;
 	}
@@ -100,7 +105,6 @@ public class URIGridAdapter extends BaseAdapter {
 	}
 	
 	protected void notifyUpdate() {
-		Log.d("Finished", "Done loading image");
 		this.notifyDataSetChanged();
 	}
 	
@@ -129,7 +133,7 @@ public class URIGridAdapter extends BaseAdapter {
 			for(int i = 0; i < images.length; i++) {
 				ImageThumb img = images[i];
 				if(img.getImage() != null) continue;
-				img.setImage(loadImage(img.url));
+				img.setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/apartment_thumbs/"+img.url));
 				publishProgress();
 			}
 			return null;
