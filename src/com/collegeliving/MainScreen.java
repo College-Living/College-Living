@@ -23,7 +23,9 @@ public class MainScreen extends LocationActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
+		//setRoomiesTile();
 		setPadTile();
+		//setMyProfileTile();
 		setSettingsTile();
 	}
 
@@ -34,6 +36,18 @@ public class MainScreen extends LocationActivity {
 		return true;
 	}
 
+	/*
+	public void setRoomiesTile() {
+		RelativeLayout roomiesTile = (RelativeLayout) findViewById(R.id.roomie_tile);
+		roomiesTile.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent roomiesActivity = new Intent(v.getContext(), RoomiesListActivity.class);
+				startActivity(roomiesActivity);
+			}
+		});
+	} 
+	*/
+	
 	public void setPadTile() {
 		RelativeLayout padsTile = (RelativeLayout) findViewById(R.id.pads_tile);
 		padsTile.setOnClickListener(new OnClickListener(){
@@ -43,6 +57,18 @@ public class MainScreen extends LocationActivity {
 			}
 		});
 	}
+	
+	/*
+	public void setMyProfileTile(){
+		RelativeLayout myProfileTile = (RelativeLayout) findViewById(R.id.profile_tile);
+		myProfileTile.setOnClickListener(new OnClickListener() {
+			public void onClick(View v){
+				Intent profileActivity = new Intent(v.getContext(), Profile.class);
+				startActivity(profileActivity);
+			}
+		});
+	}
+	*/
 	
 	public void setSettingsTile() {
 		RelativeLayout settingsTile = (RelativeLayout) findViewById(R.id.setting_tile);

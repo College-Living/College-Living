@@ -14,8 +14,8 @@
             android:id="@+id/editText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/editText1"
-            android:layout_below="@+id/editText1"
+            android:layout_alignLeft="@+id/display_name"
+            android:layout_below="@+id/display_name"
             android:ems="10"
             android:hint="Displayname"
             android:inputType="textPersonName" />
@@ -40,7 +40,7 @@
             android:hint="Search Radius" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -53,10 +53,10 @@
             android:id="@+id/Email_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editText1"
+            android:layout_alignBottom="@+id/display_name"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/editText1"
+            android:layout_toLeftOf="@+id/display_name"
             android:text="Email"
             android:textColor="@color/white"
             android:textSize="18sp" />
