@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/banner_bg" >"
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stock2" />
+
+        <EditText
+            android:id="@+id/display_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_gravity="left"
+            android:ems="10"
+			android:background="@color/seethru_white"
+            android:paddingBottom="10dp"
+		    android:paddingTop="10dp"
+            android:inputType="textPersonName"
+            android:text="@string/display_name" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_above="@+id/display_name"
+            android:layout_alignParentLeft="true" >
+
+            <Button
+                android:id="@+id/block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="Block" 
+                android:background="@color/white"/>
+
+            <Button
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Message" 
+                android:background="@color/white"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:background="@color/white">
+		
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/profile_name"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Name"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <EditText
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="profile_name" >
+                    
+                </EditText>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/pEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/profile_email"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Email"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <EditText
+                    android:id="@+id/profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:inputType="textEmailAddress"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="profile_email" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/pnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/profile_pnumber"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Phone"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <EditText
+                    android:id="@+id/profile_pnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="profile_pnumber" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/about_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:text="About Me"
+                    android:paddingBottom="10dp"
+		    		android:paddingTop="10dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/profile_about_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:paddingBottom="10dp"
+		    		android:paddingTop="10dp"
+                    android:inputType="textMultiLine"
+                    android:text="profile_about_me" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
