@@ -24,9 +24,9 @@ public abstract class LocationActivity extends Activity implements LocationListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		location = new Location("god");
-		location.setLatitude(0);
-		location.setLongitude(0);
+		setLocation(new Location("god"));
+		getLocation().setLatitude(0);
+		getLocation().setLongitude(0);
 		getGPS();
 		setInitLocation();
 	}
@@ -52,10 +52,10 @@ public abstract class LocationActivity extends Activity implements LocationListe
 		Location tmp = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location tmp1 = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		if(tmp != null) {
-			location = tmp;
+			setLocation(tmp);
 			updateDatabase();
 		} else if(tmp1 != null) {
-			location = tmp1;
+			setLocation(tmp1);
 			updateDatabase();
 		}
 	}
@@ -65,11 +65,11 @@ public abstract class LocationActivity extends Activity implements LocationListe
 	}
 	
 	public double getLatitude() {
-		return location.getLatitude();
+		return getLocation().getLatitude();
 	}
 	
 	public double getLongitude() {
-		return location.getLongitude();
+		return getLocation().getLongitude();
 	}
 	
 	public void registerGPS(String provider) {
@@ -78,7 +78,7 @@ public abstract class LocationActivity extends Activity implements LocationListe
 
 	public void onLocationChanged(Location arg0) {
 		if(arg0 != null) {
-			location = arg0;
+			setLocation(arg0);
 			updateDatabase();
 		}
 	}
@@ -118,7 +118,7 @@ public abstract class LocationActivity extends Activity implements LocationListe
 		return UID;
 	}
 	
-	private void updateDatabase() {
+	protected void updateDatabase() {
 		String URL = "/collegeliving/post/location.php";
 		try {
 			JSONObject json = new JSONObject();
@@ -130,6 +130,10 @@ public abstract class LocationActivity extends Activity implements LocationListe
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 }

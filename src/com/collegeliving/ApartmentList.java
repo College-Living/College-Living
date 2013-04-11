@@ -39,7 +39,6 @@ public class ApartmentList extends LocationActivity {
 					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
 					boolean success = json.getBoolean("success");
-					Log.i("sql", json.getString("sql"));
 					if(success) {
 						JSONArray jApartments = json.getJSONArray("apartments");
 						for(int i = 0; i < jApartments.length(); i++) {
@@ -51,11 +50,11 @@ public class ApartmentList extends LocationActivity {
 							String price = apartment.getString("PriceRange");
 							String image = apartment.getString("Thumbnail");
 							String distance = apartment.getString("Distance");
+							distance = String.format("%.2fmi", Double.valueOf(distance));
 							apartments.add(new Apartment(aptName, image, phone, email, website, price, distance));
 						}
 						showApartments(apartments);
 					} else {
-						Log.e("error", json.getString("sql"));
 						Log.e("error", json.getString("error"));
 					}
 				} catch (JSONException e) {
@@ -102,6 +101,14 @@ public class ApartmentList extends LocationActivity {
 			this.priceRange = priceRange;
 			this.imageURL = imageURL;
 			this.distance = distance;
+		}
+	}
+	
+	@Override
+	public void onLocationChanged(Location arg0) {
+		super.onLocationChanged(arg0);
+		if(arg0 != null) {
+			getLocalApartments();
 		}
 	}
 }

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,18 +32,26 @@ public class Registration extends Activity {
 	}
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_registration);
 		getQuestionnaire();
 		setRegisterBtn();
 	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+	    switch (item.getItemId()) 
+	    {
+	    case android.R.id.home: 
+	        onBackPressed();
+	        break;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_login_screen, menu);
-		return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	    return true;
 	}
-
+	
 	private void getQuestionnaire() {
 		ServerCallback callback = new ServerCallback() {
 			JSONArray questions;
