@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="80dp"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:background="@color/black">
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:src="@drawable/ic_launcher"
             android:layout_gravity="top"
-            android:contentDescription="Test" />
+            android:contentDescription="Test"
+            android:scaleType="fitCenter" />
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:background="#48FFFFFF"
+            android:layout_height="14dp"
+            android:background="#7f000000"
+            android:layout_gravity="top">
+            <TextView 
+             android:id="@+id/info_title"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:textSize="10sp"
+             android:paddingLeft="2dp"
+             android:text="User Display Name" 
+             android:layout_gravity="center"
+             android:textColor="@color/white"
+               />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="14dp"
+            android:background="#7f000000"
             android:layout_gravity="bottom">
             <TextView 
              android:id="@+id/info_caption"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content"
-             android:textSize="14sp"
+             android:textSize="10sp"
              android:paddingLeft="2dp"
-             android:text="User Display Name" 
+             android:text="User Info" 
              android:layout_gravity="center"
+             android:textColor="@color/white"
                />
         </LinearLayout>
 </FrameLayout>

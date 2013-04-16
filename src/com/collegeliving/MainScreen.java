@@ -52,7 +52,7 @@ public class MainScreen extends LocationActivity {
 		RelativeLayout padsTile = (RelativeLayout) findViewById(R.id.pads_tile);
 		padsTile.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				Intent padsActivity = new Intent(v.getContext(), ApartmentListActivity.class);
+				Intent padsActivity = new Intent(v.getContext(), ApartmentList.class);
 				startActivity(padsActivity);
 			}
 		});

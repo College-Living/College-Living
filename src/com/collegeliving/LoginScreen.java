@@ -28,12 +28,12 @@ public class LoginScreen extends Activity {
 		setLoginBtn();
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_login_screen, menu);
 		return true;
-	}
+	} */
 	
 	public void setRegisterBtn() {
 		Button registerBtn = (Button) findViewById(R.id.registerBtn);

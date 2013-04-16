@@ -20,7 +20,7 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 	
 	private JSONObject data = null;
 	private ServerCallback callback;
-	final String server_ip = "149.47.177.209";
+	public static String server_ip = "149.47.177.209";
 	
 	public ServerPost(JSONObject data, ServerCallback callback) {
 		super();
