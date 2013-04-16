@@ -10,6 +10,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -22,7 +25,7 @@ public class ApartmentList extends LocationActivity {
 	}
 	
 	private void getLocalApartments() {
-		double distance = 10.0;
+		double distance = 10.0; // TO-DO: update to shared preference
 		double radius = 3959;
 		JSONObject json = new JSONObject();
 		try {
@@ -34,7 +37,7 @@ public class ApartmentList extends LocationActivity {
 		}
 		ServerCallback callback = new ServerCallback() {
 			public void Run(String response) {
-				ArrayList<ApartmentList.Apartment> apartments = new ArrayList<ApartmentList.Apartment>();
+				ArrayList<Tile> apartmentTiles = new ArrayList<Tile>();
 				try {
 					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
@@ -43,6 +46,7 @@ public class ApartmentList extends LocationActivity {
 						JSONArray jApartments = json.getJSONArray("apartments");
 						for(int i = 0; i < jApartments.length(); i++) {
 							JSONObject apartment = jApartments.getJSONObject(i);
+							int aptID = apartment.getInt("AptID");
 							String aptName = apartment.getString("AptName");
 							String email = apartment.getString("Email");
 							String phone = apartment.getString("Phone");
@@ -51,9 +55,9 @@ public class ApartmentList extends LocationActivity {
 							String image = apartment.getString("Thumbnail");
 							String distance = apartment.getString("Distance");
 							distance = String.format("%.2fmi", Double.valueOf(distance));
-							apartments.add(new Apartment(aptName, image, phone, email, website, price, distance));
+							apartmentTiles.add(new Tile(aptID, aptName, price + ' ' + distance, image));
 						}
-						showApartments(apartments);
+						showApartments(apartmentTiles);
 					} else {
 						Log.e("error", json.getString("error"));
 					}
@@ -65,9 +69,19 @@ public class ApartmentList extends LocationActivity {
 		new ServerPost(json, callback).execute("/collegeliving/get/apartments.php");
 	}
 	
-	private void showApartments(ArrayList<ApartmentList.Apartment> apartments) {
+	private void showApartments(ArrayList<Tile> apartmentTiles) {
 		GridView grid = (GridView) findViewById(R.id.grid);
-		URIGridAdapter adapter = new URIGridAdapter(this, apartments);
+		grid.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		URIGridAdapter adapter = new URIGridAdapter(this, apartmentTiles);
 		grid.setAdapter(adapter);
 	}
 	
@@ -83,25 +97,6 @@ public class ApartmentList extends LocationActivity {
 	        return super.onOptionsItemSelected(item);
 	    }
 	    return true;
-	}
-	
-	static public class Apartment {
-		public String imageURL;
-		public String displayName;
-		public String phone;
-		public String email;
-		public String website;
-		public String priceRange;
-		public String distance;
-		public Apartment(String displayName, String imageURL, String phone, String email, String website, String priceRange, String distance) {
-			this.displayName = displayName;
-			this.phone = phone;
-			this.email = email;
-			this.website = website;
-			this.priceRange = priceRange;
-			this.imageURL = imageURL;
-			this.distance = distance;
-		}
 	}
 	
 	@Override

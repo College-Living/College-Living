@@ -9,8 +9,8 @@
     android:horizontalSpacing="0dp"
     android:verticalSpacing="0dp"
     android:stretchMode="none"
-    android:numColumns="5"
-    android:columnWidth="80dp">
+    android:numColumns="3"
+    android:columnWidth="106dp">
 	</GridView>
 
 </RelativeLayout>

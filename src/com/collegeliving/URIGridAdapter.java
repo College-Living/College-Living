@@ -24,16 +24,16 @@ import android.widget.TextView;
 public class URIGridAdapter extends BaseAdapter {
 
 	private ImageThumb images[];
-	private ArrayList<ApartmentList.Apartment> apartments;
+	private ArrayList<Tile> tiles;
 	private LayoutInflater inflater;
 	private DownloadImagesTask downloadTask;
 	
-	public URIGridAdapter(Context c, ArrayList<ApartmentList.Apartment> apartments) {
+	public URIGridAdapter(Context c, ArrayList<Tile> tiles) {
 		this.inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.images = new ImageThumb[apartments.size()];
-		this.apartments = apartments;
-		for(int i = 0; i < apartments.size(); i++) {
-			images[i] = new ImageThumb(apartments.get(i).imageURL, null);
+		this.images = new ImageThumb[tiles.size()];
+		this.tiles = tiles;
+		for(int i = 0; i < tiles.size(); i++) {
+			images[i] = new ImageThumb(tiles.get(i).getImage(), null);
 		}
 		downloadTask = new DownloadImagesTask();
 		downloadTask.execute(images);
@@ -71,8 +71,8 @@ public class URIGridAdapter extends BaseAdapter {
 			view.setImageResource(R.drawable.ic_launcher);
 		}
 		
-		title.setText(apartments.get(position).displayName);
-		info.setText(apartments.get(position).distance);
+		title.setText(tiles.get(position).getTopBar());
+		info.setText(tiles.get(position).getBottomBar());
 
 		return frame;
 	}
