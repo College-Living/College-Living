@@ -41,7 +41,7 @@ public class MainScreen extends LocationActivity {
 		RelativeLayout roomiesTile = (RelativeLayout) findViewById(R.id.roomie_tile);
 		roomiesTile.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent roomiesActivity = new Intent(v.getContext(), RoomiesListActivity.class);
+				Intent roomiesActivity = new Intent(v.getContext(), RoomiesList.class);
 				startActivity(roomiesActivity);
 			}
 		});

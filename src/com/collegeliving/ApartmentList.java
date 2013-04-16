@@ -23,7 +23,7 @@ public class ApartmentList extends LocationActivity {
 	
 	private void getLocalApartments() {
 		double distance = 10.0;
-		double radius = 3963.1676;
+		double radius = 3959;
 		JSONObject json = new JSONObject();
 		try {
 			json.put("lat", getLatitude());
