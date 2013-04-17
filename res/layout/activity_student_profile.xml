@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/stock2" />
 
-        <EditText
+        <TextView
             android:id="@+id/display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,26 +77,23 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_name"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+					android:paddingRight="10dp"
                     android:text="Name"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/Name"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="profile_name" >
-                    
-                </EditText>
+                    android:text="profile_name" />
 
             </RelativeLayout>
 
@@ -110,19 +107,18 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_email"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="10dp"
                     android:text="Email"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/pEmail"
                     android:ems="10"
                     android:inputType="textEmailAddress"
                     android:paddingBottom="10dp"
@@ -139,21 +135,20 @@
                     android:id="@+id/pnumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_pnumber"
+                    android:layout_alignParentTop="true"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="10dp"
                     android:text="Phone"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_pnumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:ems="10"
                     android:inputType="phone"
                     android:paddingBottom="10dp"
@@ -183,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_about_me"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

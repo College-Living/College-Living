@@ -23,7 +23,7 @@ public class MainScreen extends LocationActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
-		//setRoomiesTile();
+		setRoomiesTile();
 		setPadTile();
 		//setMyProfileTile();
 		setSettingsTile();
@@ -36,7 +36,7 @@ public class MainScreen extends LocationActivity {
 		return true;
 	}
 
-	/*
+	
 	public void setRoomiesTile() {
 		RelativeLayout roomiesTile = (RelativeLayout) findViewById(R.id.roomie_tile);
 		roomiesTile.setOnClickListener(new OnClickListener() {
@@ -46,7 +46,7 @@ public class MainScreen extends LocationActivity {
 			}
 		});
 	} 
-	*/
+	
 	
 	public void setPadTile() {
 		RelativeLayout padsTile = (RelativeLayout) findViewById(R.id.pads_tile);
