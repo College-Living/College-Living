@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,10 +75,14 @@ public class ApartmentList extends LocationActivity {
 		grid.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
+				Tile apartment = adapter.getItem(position);
+				int aptID = apartment.id;
+				Intent aptScreen = new Intent(v.getContext(), ApartmentScreen.class);
+				aptScreen.putExtra("AptID", aptID);
+				startActivity(aptScreen);
 			}
 			
 		});
