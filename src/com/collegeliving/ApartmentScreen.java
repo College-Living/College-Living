@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class ApartmentScreen extends LocationActivity {
@@ -21,32 +22,12 @@ public class ApartmentScreen extends LocationActivity {
 	}
 	
 	public void getApartmentInfo(int aptID) {
-		ServerCallback callback = new ServerCallback() {
-			public void Run(String response) {
-				try {
-					Log.i("json", response);
-					JSONObject json = new JSONObject(response);
-					JSONObject apartment = json.getJSONObject("apartment");
-					String aptName = apartment.getString("AptName");
-					String website = apartment.getString("AptWebsite");
-					String email = apartment.getString("Email");
-					String phone = apartment.getString("Phone");
-					String about = apartment.getString("AptIntro");
-					String photoURL = apartment.getString("Thumbnail");
-					loadApartmentInfo(aptName, website, email, phone, about, photoURL);
-				} catch(JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		
-		JSONObject json = new JSONObject();
-		try {
-			json.put("AptID", aptID);
-			new ServerPost(json, callback).execute("/collegeliving/get/apartment.php");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		ApartmentRecord apartment = db.getPad(aptID);
+		if(apartment != null)
+			loadApartmentInfo(apartment.aptName, apartment.website, apartment.email, apartment.phone, apartment.aboutApt, apartment.thumbnailURL);
+		else
+			this.finish();
 	}
 	
 	public void loadApartmentInfo(String aptName, String website, String email, String phone, String about, String photoURL) {
@@ -56,11 +37,26 @@ public class ApartmentScreen extends LocationActivity {
 		TextView tv_phone = (TextView) findViewById(R.id.profile_pnumber);
 		TextView tv_about = (TextView) findViewById(R.id.profile_about_me);
 		
-		tv_displayName.setText(aptName);
-		tv_website.setText(website);
-		tv_email.setText(email);
-		tv_phone.setText(phone);
-		tv_about.setText(about);
+		if(email.equals(""))
+			((View) tv_email.getParent()).setVisibility(View.GONE);
+		else
+			tv_email.setText(email);
+		if(aptName.equals(""))
+			((View) tv_displayName.getParent()).setVisibility(View.GONE);
+		else
+			tv_displayName.setText(aptName);
+		if(website.equals(""))
+			((View) tv_website.getParent()).setVisibility(View.GONE);
+		else
+			tv_website.setText(website);
+		if(phone.equals(""))
+			((View) tv_phone.getParent()).setVisibility(View.GONE);
+		else
+			tv_phone.setText(phone);
+		if(about.equals(""))
+			((View) tv_about.getParent()).setVisibility(View.GONE);
+		else
+			tv_about.setText(about);
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 

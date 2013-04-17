@@ -17,16 +17,13 @@ import android.widget.Toast;
 public abstract class LocationActivity extends Activity implements LocationListener {
 
 	private LocationManager lm;
-	private final int MIN_UPDATE_TIME = 1000 * 1; // every 5 minutes
-	private final int MIN_DISTANCE = 5; // .25 mile = 402; 1 MILE = 1609.34 meter
+	private final int MIN_UPDATE_TIME = 1000 * 1 * 2; // every 5 minutes
+	private final int MIN_DISTANCE = 402; // .25 mile = 402; 1 MILE = 1609.34 meter
 	private Location location;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		setLocation(new Location("god"));
-		getLocation().setLatitude(0);
-		getLocation().setLongitude(0);
 		getGPS();
 		setInitLocation();
 	}

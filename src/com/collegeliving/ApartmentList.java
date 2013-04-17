@@ -6,10 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +25,31 @@ public class ApartmentList extends LocationActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_grid);
-		getLocalApartments();
+		draw();
+	}
+	
+	private void draw() {
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		ArrayList<ApartmentRecord> records = db.getPads();
+		for(int i = 0; i < records.size(); i++) {
+			ApartmentRecord record = records.get(i);
+			tiles.add(new Tile(record.aptID, record.aptName, record.price+ ' '+ String.format("%.2fmi", record.distance), record.thumbnailURL));
+		}
+		GridView grid = (GridView) findViewById(R.id.grid);
+		grid.setAdapter(null);
+		grid.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
+				Tile apartment = adapter.getItem(position);
+				int aptID = apartment.id;
+				Intent aptScreen = new Intent(v.getContext(), ApartmentScreen.class);
+				aptScreen.putExtra("AptID", aptID);
+				startActivity(aptScreen);
+			}
+		});
+		URIGridAdapter adapter = new URIGridAdapter(this, tiles);
+		grid.setAdapter(adapter);
 	}
 	
 	private void getLocalApartments() {
@@ -39,8 +66,8 @@ public class ApartmentList extends LocationActivity {
 		ServerCallback callback = new ServerCallback() {
 			public void Run(String response) {
 				ArrayList<Tile> apartmentTiles = new ArrayList<Tile>();
+				DatabaseHelper db = DatabaseHelper.getInstance(ApartmentList.this);
 				try {
-					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
 					boolean success = json.getBoolean("success");
 					if(success) {
@@ -52,13 +79,13 @@ public class ApartmentList extends LocationActivity {
 							String email = apartment.getString("Email");
 							String phone = apartment.getString("Phone");
 							String website = apartment.getString("AptWebsite");
+							String aboutApt = apartment.getString("AptIntro");
 							String price = apartment.getString("PriceRange");
 							String image = apartment.getString("Thumbnail");
-							String distance = apartment.getString("Distance");
-							distance = String.format("%.2fmi", Double.valueOf(distance));
-							apartmentTiles.add(new Tile(aptID, aptName, price + ' ' + distance, image));
+							double distance = apartment.getDouble("Distance");
+							db.insertOrUpdatePad(aptID, aptName, price, distance, website, phone, email, aboutApt, image);
 						}
-						showApartments(apartmentTiles);
+						draw();
 					} else {
 						Log.e("error", json.getString("error"));
 					}
@@ -70,24 +97,10 @@ public class ApartmentList extends LocationActivity {
 		new ServerPost(json, callback).execute("/collegeliving/get/apartments.php");
 	}
 	
-	private void showApartments(ArrayList<Tile> apartmentTiles) {
-		GridView grid = (GridView) findViewById(R.id.grid);
-		grid.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position,
-					long id) {
-				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
-				Tile apartment = adapter.getItem(position);
-				int aptID = apartment.id;
-				Intent aptScreen = new Intent(v.getContext(), ApartmentScreen.class);
-				aptScreen.putExtra("AptID", aptID);
-				startActivity(aptScreen);
-			}
-			
-		});
-		URIGridAdapter adapter = new URIGridAdapter(this, apartmentTiles);
-		grid.setAdapter(adapter);
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.activity_apartment_list, menu);
+	    return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 
@@ -97,7 +110,9 @@ public class ApartmentList extends LocationActivity {
 	    case android.R.id.home: 
 	        onBackPressed();
 	        break;
-
+	    case R.id.refresh:
+	    	getLocalApartments();
+	    	break;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
