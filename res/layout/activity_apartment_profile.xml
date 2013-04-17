@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/stock3" />
 
-        <EditText
+        <TextView
             android:id="@+id/display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,35 +43,33 @@
             android:orientation="vertical" >
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/Name"
+                    android:id="@+id/TextView01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_name"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="Name"
+                    android:paddingRight="10dp"
+                    android:text="Website"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
-                    android:id="@+id/profile_name"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/profile_website"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/TextView01"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:autoLink="web"
+                    android:hint="Website URL"
+                    android:inputType="textUri"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_name" >
-                    
-                </EditText>
+                    android:paddingTop="10dp" />
 
             </RelativeLayout>
 
@@ -85,24 +83,25 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_email"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="10dp"
                     android:text="Email"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_email"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignBaseline="@+id/pEmail"
+                    android:layout_alignBottom="@+id/pEmail"
+                    android:layout_toRightOf="@+id/pEmail"
                     android:ems="10"
+                    android:hint="Email"
+                    android:autoLink="email"
                     android:inputType="textEmailAddress"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_email" />
+                    android:paddingTop="10dp" />
 
             </RelativeLayout>
 
@@ -116,24 +115,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_pnumber"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
+                    android:paddingRight="10dp"
                     android:text="Phone"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_pnumber"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/pnumber"
                     android:ems="10"
+                    android:hint="Phone #"
                     android:inputType="phone"
+                    android:autoLink="phone"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_pnumber" />
+                    android:paddingTop="10dp" />
 
             </RelativeLayout>
 
@@ -147,9 +146,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
-                    android:text="About Me"
                     android:paddingBottom="10dp"
-		    		android:paddingTop="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:text="About the Apartment"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
             </RelativeLayout>
@@ -158,15 +158,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <EditText
+                <TextView
                     android:id="@+id/profile_about_me"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="About the Apartment"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     android:paddingBottom="10dp"
-		    		android:paddingTop="10dp"
-                    android:inputType="textMultiLine"
-                    android:text="profile_about_me" />
+                    android:paddingTop="10dp" />
 
             </RelativeLayout>
 
