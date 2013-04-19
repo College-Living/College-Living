@@ -11,7 +11,7 @@
         android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/profile_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/stock2" />
@@ -20,7 +20,7 @@
             android:id="@+id/display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignBottom="@+id/profile_img"
             android:layout_gravity="left"
             android:ems="10"
 			android:background="@color/seethru_white"

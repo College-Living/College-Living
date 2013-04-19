@@ -1,5 +1,8 @@
 package com.collegeliving;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,11 +19,81 @@ public class Settings extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_settings_screen);
+		load_setting();
 		setLogoutBtn();
 		setEmailOnchange();
 		setRadiusOnchange();
 		setDisplayNameOnchange();
 		setPasswordOnchange();
+	}
+	
+	private void update_setting(String field, String value){
+			SharedPreferences preferences = getSharedPreferences("UserSharedPreferences", 0);
+			int user_id = preferences.getInt("UID", -1);
+    		JSONObject json = new JSONObject();
+    		try {
+    			json.put("method", "set");
+				json.put("uid", user_id);
+				json.put("field", field);
+				json.put("value", value);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+    		ServerCallback settingResponse = new ServerCallback(){
+				@Override
+				public void Run(String response) {
+					try {
+						JSONObject json = new JSONObject(response);
+						boolean success = json.getBoolean("success");
+						if(success){
+	                		//Toast.makeText(getApplicationContext(), "Info updated", Toast.LENGTH_SHORT).show();
+						}else{
+	                		Toast.makeText(getApplicationContext(), "um?", Toast.LENGTH_SHORT).show();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}                		
+    		};
+    		new ServerPost(json, settingResponse).execute("/collegeliving/post/setting.php");
+	}
+	
+	private void load_setting(){
+		SharedPreferences preferences = getSharedPreferences("UserSharedPreferences", 0);
+		int user_id = preferences.getInt("UID", -1);
+		JSONObject json = new JSONObject();
+		try {
+			json.put("method", "load");
+			json.put("uid", user_id);
+		} catch (JSONException e){
+			e.printStackTrace();
+		}
+		ServerCallback settingResponse = new ServerCallback(){
+			@Override
+			public void Run(String response) {
+				try {
+					JSONObject json = new JSONObject(response);
+					boolean success = json.getBoolean("success");
+					if(success){
+						String email = json.getString("email");
+						String displayname = json.getString("displayname");
+						String radius = json.getString("radius");
+						EditText email_setting = (EditText) findViewById(R.id.Email_setting);
+						email_setting.setText(email);
+						EditText radius_setting = (EditText) findViewById(R.id.Radius_setting);
+						radius_setting.setText(radius);
+						EditText displayname_setting = (EditText) findViewById(R.id.DisplayName_setting);
+						displayname_setting.setText(displayname);
+					}else{
+						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}				
+			}
+		};
+		new ServerPost(json, settingResponse).execute("/collegeliving/post/setting.php");
 	}
 	
 	public void setEmailOnchange(){
@@ -33,7 +106,7 @@ public class Settings extends Activity {
             	if(!hasFocus){
                 	String newemail = email.getText().toString();
                 	if(!oldemail.equals(newemail)){
-                		Toast.makeText(getApplicationContext(), "email changed", Toast.LENGTH_SHORT).show();
+                		update_setting("Email", newemail);
                 	}
                 }else{
                 	oldemail = email.getText().toString();
@@ -51,7 +124,7 @@ public class Settings extends Activity {
                 if(!hasFocus){
                 	String newradius = radius.getText().toString();
                 	if(!oldradius.equals(newradius))
-                		Toast.makeText(getApplicationContext(), "radius changed", Toast.LENGTH_SHORT).show();
+                		update_setting("Radius", newradius);
                 }else{
                 	oldradius = radius.getText().toString();
                 }
@@ -68,7 +141,7 @@ public class Settings extends Activity {
                 if(!hasFocus){
                     String newdisplayname = displayname.getText().toString();
                     if(!olddisplayname.equals(newdisplayname))
-                    	Toast.makeText(getApplicationContext(), "displayname changed", Toast.LENGTH_SHORT).show();
+                		update_setting("DisplayName", newdisplayname);
                 }else{
                 	olddisplayname = displayname.getText().toString();
                 }
@@ -85,7 +158,7 @@ public class Settings extends Activity {
                 if(!hasFocus){
                     String newpw = pw.getText().toString();
                     if(!oldpw.equals(newpw))
-                    	Toast.makeText(getApplicationContext(), "password changed", Toast.LENGTH_SHORT).show();
+                		update_setting("Password", newpw);
                 }else{
                 	oldpw = pw.getText().toString();
                 }

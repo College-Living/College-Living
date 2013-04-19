@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -17,14 +17,41 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
-    <style name="NoActionBar" parent="@android:style/Theme.Holo.Light.NoActionBar">
+    <style name="NoActionBar" parent="@android:style/Theme.Holo.NoActionBar">
         
         
     </style>
+    <style name="NoActionBarTitle" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/Widget.ActionBar.NoTitle</item>
+    </style>
+ 
+    <style name="Widget.ActionBar.NoTitle" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:displayOptions">homeAsUp|showHome|useLogo</item>
+    </style>
+    
 	<style name="Input_field">
         <item name="android:textSize">16sp</item>
         <item name="android:textColorHint">#FFFFFFFF</item>
         <item name="android:textColor">#FFFFFFFF</item>
         <item name="android:paddingTop">20dp</item>
+    </style>
+    <style name="profile_table_row_pos">
+        <item name="android:background">@drawable/profile_table_pos</item>
+    </style>
+    <style name="profile_table_row_neg">
+        <item name="android:background">@drawable/profile_table_neg</item>
+    </style>
+    <style name="profile_label">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#555</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:width">100dp</item>
+    </style>
+    <style name="profile_info">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">#FF666666</item>
+        <item name="android:padding">5dp</item>
     </style>
 </resources>

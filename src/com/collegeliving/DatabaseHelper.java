@@ -1,0 +1,177 @@
+package com.collegeliving;
+
+import java.util.ArrayList;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+	private static DatabaseHelper mInstance = null;
+	static String DB_NAME = "CollegeLivingDB";
+	static int DB_VERSION = 5;
+	
+	static public class Roomie {
+		static String TABLE = "Roomie";
+		static String ID = "UID";
+		static String DISPLAY_NAME = "DisplayName";
+		static String EMAIL = "Email";
+		static String PHONE = "Phone";
+		static String ABOUT_ME = "AboutMe";
+		static String THUMBNAIL_CACHE = "ThumbnailCache";
+		static String THUMBNAIL_URL = "ThumbnailURL";
+	}
+	
+	static public class Pad {
+		static String TABLE = "Pad";
+		static String ID = "AID";
+		static String DISPLAY_NAME = "ApartmentName";
+		static String WEBSITE = "Website";
+		static String EMAIL = "Email";
+		static String PHONE = "Phone";
+		static String PRICE_RANGE = "PriceRange";
+		static String ABOUT_APT = "AboutApt";
+		static String LONGITUDE = "Longitude";
+		static String LATITUDE = "Latitude";
+		static String DISTANCE = "Distance";
+		static String THUMBNAIL_CACHE = "ThumbnailCache";
+		static String THUMBNAIL_URL = "ThumbnailURL";
+	}
+	
+	static public DatabaseHelper getInstance(Context ctx) {
+		if(mInstance == null)
+			mInstance = new DatabaseHelper(ctx.getApplicationContext());
+		return mInstance;
+	}
+	
+	private DatabaseHelper(Context ctx) {
+		super(ctx, DB_NAME, null, DB_VERSION);
+	}
+	
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		String roomie_sql = "CREATE TABLE IF NOT EXISTS "+Roomie.TABLE + " (" +
+							 Roomie.ID+" INTEGER PRIMARY KEY, " +
+							 Roomie.DISPLAY_NAME+ " VARCHAR(100), " +
+							 Roomie.EMAIL+ " TEXT, " +
+							 Roomie.PHONE+ " VARCHAR(50), " +
+							 Roomie.ABOUT_ME + " TEXT, " +
+							 Roomie.THUMBNAIL_URL + " TEXT, " +
+							 Roomie.THUMBNAIL_CACHE + " TEXT" +
+							 ");";
+		db.execSQL(roomie_sql);
+		String pad_sql = "CREATE TABLE IF NOT EXISTS "+Pad.TABLE + " (" +
+						 Pad.ID+" INTEGER PRIMARY KEY, " +
+						 Pad.DISPLAY_NAME+ " VARCHAR(100), " +
+						 Pad.EMAIL+ " TEXT, " +
+						 Pad.PHONE+ " VARCHAR(50), " +
+						 Pad.WEBSITE+ " TEXT, " +
+						 Pad.ABOUT_APT + " TEXT, " +
+						 Pad.THUMBNAIL_URL + " TEXT, " +
+						 Pad.THUMBNAIL_CACHE + " TEXT, " +
+						 Pad.LONGITUDE + " DECIMAL, " +
+						 Pad.LATITUDE + " DECIMAL, " +
+						 Pad.DISTANCE + " DECIMAL, " +
+						 Pad.PRICE_RANGE + " TEXT" +
+						 ");";
+		db.execSQL(pad_sql);
+	}
+	
+	public long insertOrUpdatePad(int aptID, String aptName, String price, double distance, double lon, double lat, String website, String phone, String email, String aboutApt, String thumbnailURL) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		long rowID = -1;
+		cv.put(Pad.DISPLAY_NAME, aptName);
+		cv.put(Pad.LONGITUDE, lon);
+		cv.put(Pad.LATITUDE, lat);
+		cv.put(Pad.DISTANCE, distance);
+		cv.put(Pad.WEBSITE, website);
+		cv.put(Pad.PHONE, phone);
+		cv.put(Pad.EMAIL, email);
+		cv.put(Pad.ABOUT_APT, aboutApt);
+		cv.put(Pad.THUMBNAIL_URL, thumbnailURL);
+		cv.put(Pad.PRICE_RANGE, price);
+		if(!padExists(aptID)) {
+			cv.put(Pad.ID, aptID);
+			rowID = db.insert(Pad.TABLE, null, cv);
+		} else {
+			rowID = db.update(Pad.TABLE, cv, Pad.ID+" = ?", new String[] {String.valueOf(aptID)});
+		}
+		return rowID;
+	}
+	
+	private boolean padExists(int aptID) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Pad.TABLE, null, Pad.ID+" = ?", new String[] {String.valueOf(aptID)}, null, null, null);
+		int count = cursor.getCount();
+		if(cursor != null && !cursor.isClosed())
+			cursor.close();
+		if(count > 0) return true;
+		else return false;
+	}
+	
+	public ApartmentRecord getPad(int aptID) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Pad.TABLE, null, Pad.ID + " = ?", new String[] {String.valueOf(aptID)}, null, null, null);
+		ApartmentRecord apartment = null;
+		if(cursor.moveToFirst()) {
+			String aptName = cursor.getString(cursor.getColumnIndex(Pad.DISPLAY_NAME));
+			double distance = cursor.getDouble(cursor.getColumnIndex(Pad.DISTANCE));
+			double lon = cursor.getDouble(cursor.getColumnIndex(Pad.LONGITUDE));
+			double lat = cursor.getDouble(cursor.getColumnIndex(Pad.LATITUDE));
+			String website = cursor.getString(cursor.getColumnIndex(Pad.WEBSITE));
+			String phone = cursor.getString(cursor.getColumnIndex(Pad.PHONE));
+			String email = cursor.getString(cursor.getColumnIndex(Pad.EMAIL));
+			String aboutApt = cursor.getString(cursor.getColumnIndex(Pad.ABOUT_APT));
+			String thumbnailURL = cursor.getString(cursor.getColumnIndex(Pad.THUMBNAIL_URL));
+			String thumbnailCache = cursor.getString(cursor.getColumnIndex(Pad.THUMBNAIL_CACHE));
+			String price = cursor.getString(cursor.getColumnIndex(Pad.PRICE_RANGE));
+			apartment = new ApartmentRecord(aptID, aptName, price, distance, website, phone, email, aboutApt, thumbnailURL, thumbnailCache);
+		}
+		return apartment;
+	}
+	
+	public ArrayList<ApartmentRecord> getPads() {
+		ArrayList<ApartmentRecord> pads = new ArrayList<ApartmentRecord>();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Pad.TABLE, null, null, null, null, null, Pad.DISTANCE);
+		if(cursor.moveToFirst()) {
+			do {
+				int aptID = cursor.getInt(cursor.getColumnIndex(Pad.ID));
+				String aptName = cursor.getString(cursor.getColumnIndex(Pad.DISPLAY_NAME));
+				double distance = cursor.getDouble(cursor.getColumnIndex(Pad.DISTANCE));
+				String website = cursor.getString(cursor.getColumnIndex(Pad.WEBSITE));
+				String phone = cursor.getString(cursor.getColumnIndex(Pad.PHONE));
+				String email = cursor.getString(cursor.getColumnIndex(Pad.EMAIL));
+				String aboutApt = cursor.getString(cursor.getColumnIndex(Pad.ABOUT_APT));
+				String thumbnailURL = cursor.getString(cursor.getColumnIndex(Pad.THUMBNAIL_URL));
+				String thumbnailCache = cursor.getString(cursor.getColumnIndex(Pad.THUMBNAIL_CACHE));
+				String price = cursor.getString(cursor.getColumnIndex(Pad.PRICE_RANGE));
+				pads.add(new ApartmentRecord(aptID, aptName, price, distance, website, phone, email, aboutApt, thumbnailURL, thumbnailCache));
+			} while(cursor.moveToNext());
+		}
+		if(cursor != null && !cursor.isClosed())
+			cursor.close();
+		return pads;
+	}
+	
+	public void dropRoomieTable(SQLiteDatabase db) {
+		db.execSQL("DROP TABLE "+Roomie.TABLE+";");
+	}
+	
+	public void dropPadTable(SQLiteDatabase db) {
+		db.execSQL("DROP TABLE "+Pad.TABLE+";");
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		dropRoomieTable(db);
+		dropPadTable(db);
+		onCreate(db);
+	}
+
+}
