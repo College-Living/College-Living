@@ -46,7 +46,7 @@ public class Settings extends Activity {
 						JSONObject json = new JSONObject(response);
 						boolean success = json.getBoolean("success");
 						if(success){
-	                		//Toast.makeText(getApplicationContext(), "Info updated", Toast.LENGTH_SHORT).show();
+	                		Toast.makeText(getApplicationContext(), "Info updated", Toast.LENGTH_SHORT).show();
 						}else{
 	                		Toast.makeText(getApplicationContext(), "um?", Toast.LENGTH_SHORT).show();
 						}
