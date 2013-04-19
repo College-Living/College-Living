@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="login_bg">#ff286e91</color>
-    <color name="seethru_black">#22000000</color>
+    <color name="seethru_black">#44000000</color>
 	<color name="seethru_white">#7FFFFFFF</color>
 	<color name="roomies_red">#ffff2c38</color>
 	<color name="pads_orange">#ffff9838</color>

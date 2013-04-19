@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -23,7 +24,8 @@ import android.widget.Toast;
 public class ApartmentList extends LocationActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		/*getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(false);*/
 		setContentView(R.layout.activity_grid);
 		draw();
 	}
