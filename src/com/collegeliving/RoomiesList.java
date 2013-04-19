@@ -52,7 +52,7 @@ public class RoomiesList extends LocationActivity {
 							String phone = roomie.getString("Phone");
 							String cScore = roomie.getString("CompScore");
 							String image = roomie.getString("Thumbnail");
-							roomiesTiles.add(new Tile(UID, uName, cScore, image));
+							roomiesTiles.add(new Tile(UID, uName, cScore, "", image));
 						}
 						showRoomies(roomiesTiles);
 					} else {
