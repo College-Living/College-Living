@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/from_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is a test bubble"
+        android:padding="@dimen/bubble_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:background="@drawable/from_message_bubble"/>
+
+    <TextView
+        android:id="@+id/to_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/to_message_bubble"
+        android:padding="@dimen/bubble_padding"
+        android:text="This is a test bubble"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" 
+        />
+
+</LinearLayout>
