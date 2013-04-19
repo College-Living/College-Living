@@ -45,8 +45,8 @@ public class URIGridAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return this.images[position].url;
+	public Tile getItem(int position) {
+		return this.tiles.get(position);
 	}
 
 	@Override
