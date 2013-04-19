@@ -8,13 +8,13 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="208dp" >
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/stock3" />
+            android:src="@drawable/img_placeholder" />
 
         <EditText
             android:id="@+id/display_name"

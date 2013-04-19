@@ -34,7 +34,7 @@ public class ApartmentList extends LocationActivity {
 		ArrayList<ApartmentRecord> records = db.getPads();
 		for(int i = 0; i < records.size(); i++) {
 			ApartmentRecord record = records.get(i);
-			tiles.add(new Tile(record.aptID, record.aptName, record.price+ ' '+ String.format("%.2fmi", record.distance), record.thumbnailURL));
+			tiles.add(new Tile(record.aptID, record.aptName, record.price, String.format("%.2fmi", record.distance), record.thumbnailURL));
 		}
 		GridView grid = (GridView) findViewById(R.id.grid);
 		grid.setAdapter(null);
@@ -82,8 +82,10 @@ public class ApartmentList extends LocationActivity {
 							String aboutApt = apartment.getString("AptIntro");
 							String price = apartment.getString("PriceRange");
 							String image = apartment.getString("Thumbnail");
+							double lat = apartment.getDouble("Lat");
+							double lon = apartment.getDouble("Long");
 							double distance = apartment.getDouble("Distance");
-							db.insertOrUpdatePad(aptID, aptName, price, distance, website, phone, email, aboutApt, image);
+							db.insertOrUpdatePad(aptID, aptName, price, distance, lon, lat, website, phone, email, aboutApt, image);
 						}
 						draw();
 					} else {

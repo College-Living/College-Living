@@ -62,17 +62,17 @@ public class URIGridAdapter extends BaseAdapter {
 				
 		ImageView view = (ImageView) frame.findViewById(R.id.thumbnail);
 		TextView title = (TextView) frame.findViewById(R.id.info_title);
-		TextView info = (TextView) frame.findViewById(R.id.info_caption);
+		TextView primary_info = (TextView) frame.findViewById(R.id.primary_info);
+		TextView secondary_info = (TextView) frame.findViewById(R.id.secondary_info);
 		
 		ImageThumb img = images[position];
 		if(img.image != null) {
 			view.setImageBitmap(img.image);
-		} else {
-			view.setImageResource(R.drawable.ic_launcher);
 		}
 		
 		title.setText(tiles.get(position).getTopBar());
-		info.setText(tiles.get(position).getBottomBar());
+		primary_info.setText(tiles.get(position).getPrimaryInfo());
+		secondary_info.setText(tiles.get(position).getSecondaryInfo());
 
 		return frame;
 	}

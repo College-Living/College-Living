@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +57,7 @@ public class ApartmentScreen extends LocationActivity {
 		if(about.equals(""))
 			((View) tv_about.getParent()).setVisibility(View.GONE);
 		else
-			tv_about.setText(about);
+			tv_about.setText(Html.fromHtml(about));
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 

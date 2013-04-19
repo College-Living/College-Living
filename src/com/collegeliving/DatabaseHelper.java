@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper mInstance = null;
 	static String DB_NAME = "CollegeLivingDB";
-	static int DB_VERSION = 4;
+	static int DB_VERSION = 5;
 	
 	static public class Roomie {
 		static String TABLE = "Roomie";
@@ -35,6 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String PHONE = "Phone";
 		static String PRICE_RANGE = "PriceRange";
 		static String ABOUT_APT = "AboutApt";
+		static String LONGITUDE = "Longitude";
+		static String LATITUDE = "Latitude";
 		static String DISTANCE = "Distance";
 		static String THUMBNAIL_CACHE = "ThumbnailCache";
 		static String THUMBNAIL_URL = "ThumbnailURL";
@@ -71,17 +73,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						 Pad.ABOUT_APT + " TEXT, " +
 						 Pad.THUMBNAIL_URL + " TEXT, " +
 						 Pad.THUMBNAIL_CACHE + " TEXT, " +
+						 Pad.LONGITUDE + " DECIMAL, " +
+						 Pad.LATITUDE + " DECIMAL, " +
 						 Pad.DISTANCE + " DECIMAL, " +
 						 Pad.PRICE_RANGE + " TEXT" +
 						 ");";
 		db.execSQL(pad_sql);
 	}
 	
-	public long insertOrUpdatePad(int aptID, String aptName, String price, double distance, String website, String phone, String email, String aboutApt, String thumbnailURL) {
+	public long insertOrUpdatePad(int aptID, String aptName, String price, double distance, double lon, double lat, String website, String phone, String email, String aboutApt, String thumbnailURL) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues cv = new ContentValues();
 		long rowID = -1;
 		cv.put(Pad.DISPLAY_NAME, aptName);
+		cv.put(Pad.LONGITUDE, lon);
+		cv.put(Pad.LATITUDE, lat);
 		cv.put(Pad.DISTANCE, distance);
 		cv.put(Pad.WEBSITE, website);
 		cv.put(Pad.PHONE, phone);
@@ -115,6 +121,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if(cursor.moveToFirst()) {
 			String aptName = cursor.getString(cursor.getColumnIndex(Pad.DISPLAY_NAME));
 			double distance = cursor.getDouble(cursor.getColumnIndex(Pad.DISTANCE));
+			double lon = cursor.getDouble(cursor.getColumnIndex(Pad.LONGITUDE));
+			double lat = cursor.getDouble(cursor.getColumnIndex(Pad.LATITUDE));
 			String website = cursor.getString(cursor.getColumnIndex(Pad.WEBSITE));
 			String phone = cursor.getString(cursor.getColumnIndex(Pad.PHONE));
 			String email = cursor.getString(cursor.getColumnIndex(Pad.EMAIL));
