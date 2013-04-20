@@ -55,13 +55,11 @@ public class ApartmentList extends LocationActivity {
 	}
 	
 	private void getLocalApartments() {
-		double distance = 10.0; // TO-DO: update to shared preference
-		double radius = 3959;
 		JSONObject json = new JSONObject();
 		try {
 			json.put("lat", getLatitude());
 			json.put("long", getLongitude());
-			json.put("delta", (double) distance/radius); 
+			json.put("uid", this.getLoggedInUser());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -69,6 +67,7 @@ public class ApartmentList extends LocationActivity {
 			public void Run(String response) {
 				ArrayList<Tile> apartmentTiles = new ArrayList<Tile>();
 				DatabaseHelper db = DatabaseHelper.getInstance(ApartmentList.this);
+				db.clearPads();
 				try {
 					JSONObject json = new JSONObject(response);
 					boolean success = json.getBoolean("success");

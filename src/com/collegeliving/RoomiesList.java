@@ -6,9 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,24 +27,49 @@ public class RoomiesList extends LocationActivity {
 		getLocalRoomies();
 	}
 	
+	private void draw() {
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		ArrayList<RoomieRecord> records = db.getRoomies();
+		for(int i = 0; i < records.size(); i++) {
+			RoomieRecord record = records.get(i);
+			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", "", record.thumbnailURL));
+		}
+		GridView grid = (GridView) findViewById(R.id.grid);
+		grid.setAdapter(null);
+		grid.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
+				Tile apartment = adapter.getItem(position);
+				int aptID = apartment.id;
+				Intent aptScreen = new Intent(v.getContext(), ApartmentScreen.class);
+				aptScreen.putExtra("AptID", aptID);
+				startActivity(aptScreen);
+			}
+		});
+		URIGridAdapter adapter = new URIGridAdapter(this, tiles);
+		grid.setAdapter(adapter);
+	}
+	
+	
 	private void getLocalRoomies() {
-		double distance = 10.0; // TO-DO: update to shared preference
-		double radius = 3959;
 		JSONObject json = new JSONObject();
 		try {
 			json.put("lat", getLatitude());
 			json.put("long", getLongitude());
 			json.put("uid", this.getLoggedInUser());
-			json.put("delta", (double) distance/radius); 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		ServerCallback callback = new ServerCallback() {
 			public void Run(String response) {
 				ArrayList<Tile> roomiesTiles = new ArrayList<Tile>();
+				DatabaseHelper db = DatabaseHelper.getInstance(RoomiesList.this);
+				db.clearRoomies();
 				try {
 					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
+					Log.i("sql", json.getString("query"));
 					boolean success = json.getBoolean("success");
 					if(success) {
 						JSONArray jRoomies = json.getJSONArray("roomies");
@@ -51,11 +79,12 @@ public class RoomiesList extends LocationActivity {
 							String uName = roomie.getString("uName");
 							String email = roomie.getString("Email");
 							String phone = roomie.getString("Phone");
-							String cScore = roomie.getString("CompScore");
+							double cScore = roomie.getDouble("CompScore");
 							String image = roomie.getString("Thumbnail");
-							roomiesTiles.add(new Tile(UID, uName, cScore, "", image));
+							String aboutMe = roomie.getString("AboutMe");
+							db.insertOrUpdateRoomie(UID, uName, phone, email, aboutMe, image, cScore);
 						}
-						showRoomies(roomiesTiles);
+						draw();
 					} else {
 						Log.e("error", json.getString("error"));
 					}
@@ -66,21 +95,11 @@ public class RoomiesList extends LocationActivity {
 		};
 		new ServerPost(json, callback).execute("/collegeliving/get/roomies.php");
 	}
-	
-	private void showRoomies(ArrayList<Tile> roomieTiles) {
-		GridView grid = (GridView) findViewById(R.id.grid);
-		grid.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		URIGridAdapter adapter = new URIGridAdapter(this, roomieTiles);
-		grid.setAdapter(adapter);
+		
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.activity_apartment_list, menu);
+	    return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 
@@ -90,7 +109,9 @@ public class RoomiesList extends LocationActivity {
 	    case android.R.id.home: 
 	        onBackPressed();
 	        break;
-
+	    case R.id.refresh:
+	    	getLocalRoomies();
+	    	break;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }

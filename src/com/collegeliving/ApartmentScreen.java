@@ -60,7 +60,7 @@ public class ApartmentScreen extends LocationActivity {
 		else
 			tv_about.setText(Html.fromHtml(about));
 		if(photoUrl.length() != 0)
-			new ImageLoader(img, "http://"+ServerPost.server_ip+"/collegeliving/apartment_thumbs/"+photoUrl);
+			new ImageLoader(img, "http://"+ServerPost.server_ip+"/collegeliving/"+photoUrl);
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 

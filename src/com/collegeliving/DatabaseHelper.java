@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper mInstance = null;
 	static String DB_NAME = "CollegeLivingDB";
-	static int DB_VERSION = 5;
+	static int DB_VERSION = 6;
 	
 	static public class Roomie {
 		static String TABLE = "Roomie";
@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String DISPLAY_NAME = "DisplayName";
 		static String EMAIL = "Email";
 		static String PHONE = "Phone";
+		static String COMPATIBILITY = "Compatibility";
 		static String ABOUT_ME = "AboutMe";
 		static String THUMBNAIL_CACHE = "ThumbnailCache";
 		static String THUMBNAIL_URL = "ThumbnailURL";
@@ -69,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 							 Roomie.EMAIL+ " TEXT, " +
 							 Roomie.PHONE+ " VARCHAR(50), " +
 							 Roomie.ABOUT_ME + " TEXT, " +
+							 Roomie.COMPATIBILITY + " FLOAT, " +
 							 Roomie.THUMBNAIL_URL + " TEXT, " +
 							 Roomie.THUMBNAIL_CACHE + " TEXT" +
 							 ");";
@@ -89,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						 ");";
 		db.execSQL(pad_sql);
 		String msg_sql = "CREATE TABLE IF NOT EXISTS "+Message.TABLE + " (" +
-				 Message.ID+" INTEGER PRIMARY KEY AUTO INCREMENT, " +
+				 Message.ID+" INTEGER AUTO INCREMENT PRIMARY KEY, " +
 				 Message.CONTENT+ " VARCHAR(1000), " +
 				 Message.SENT_FROM+ " INTEGER, " +
 				 Message.SEND_TO+ " INTEGER, " +
@@ -204,6 +206,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if(cursor != null && !cursor.isClosed())
 			cursor.close();
 		return pads;
+	}
+	
+	public long insertOrUpdateRoomie(int uID, String displayName, String phone, String email, String aboutMe, String thumbnailURL, double compatScore) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		long rowID = -1;
+		cv.put(Roomie.DISPLAY_NAME, displayName);
+		cv.put(Roomie.PHONE, phone);
+		cv.put(Roomie.EMAIL, email);
+		cv.put(Roomie.ABOUT_ME, aboutMe);
+		cv.put(Roomie.THUMBNAIL_URL, thumbnailURL);
+		cv.put(Roomie.COMPATIBILITY, compatScore);
+		if(!roomieExists(uID)) {
+			cv.put(Roomie.ID, uID);
+			rowID = db.insert(Roomie.TABLE, null, cv);
+		} else {
+			rowID = db.update(Roomie.TABLE, cv, Roomie.ID+" = ?", new String[] {String.valueOf(uID)});
+		}
+		return rowID;
+	}
+	
+	private boolean roomieExists(int uID) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Roomie.TABLE, null, Roomie.ID+" = ?", new String[] {String.valueOf(uID)}, null, null, null);
+		int count = cursor.getCount();
+		if(cursor != null && !cursor.isClosed())
+			cursor.close();
+		if(count > 0) return true;
+		else return false;
+	}
+	
+	public ArrayList<RoomieRecord> getRoomies() {
+		ArrayList<RoomieRecord> roomies = new ArrayList<RoomieRecord>();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Roomie.TABLE, null, null, null, null, null, Roomie.COMPATIBILITY+" DESC");
+		if(cursor.moveToFirst()) {
+			do {
+				int uid = cursor.getInt(cursor.getColumnIndex(Roomie.ID));
+				String displayName = cursor.getString(cursor.getColumnIndex(Roomie.DISPLAY_NAME));
+				String email = cursor.getString(cursor.getColumnIndex(Roomie.EMAIL));
+				String phone = cursor.getString(cursor.getColumnIndex(Roomie.PHONE));
+				String aboutMe = cursor.getString(cursor.getColumnIndex(Roomie.ABOUT_ME));
+				double compatScore = cursor.getDouble(cursor.getColumnIndex(Roomie.COMPATIBILITY));
+				String thumbnail = cursor.getString(cursor.getColumnIndex(Roomie.THUMBNAIL_URL));
+				roomies.add(new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore));
+			} while(cursor.moveToNext());
+		}
+		return roomies;
+	}
+	
+	public void clearRoomies() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		dropRoomieTable(db);
+		onCreate(db);
+	}
+	
+	public void clearPads() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		dropPadTable(db);
+		onCreate(db);
 	}
 	
 	public void dropRoomieTable(SQLiteDatabase db) {
