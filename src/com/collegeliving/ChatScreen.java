@@ -18,6 +18,40 @@ public class ChatScreen extends LocationActivity {
 		
 	}
 	private void sendMsg(){
+		SharedPreferences preferences = getSharedPreferences("UserSharedPreferences", 0);
+		int user_id = preferences.getInt("UID", -1);
+		int chat_with_id = preferences.getInt("chat_with_id", -1);//set the id before go to the chatscreen
+		JSONObject json = new JSONObject();
+		try {
+			json.put("method", "send");
+			json.put("FromUID", user_id);
+			json.put("ToUID", chat_with_id);
+			json.put("message", "message content goes here");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ServerCallback msgResponse = new ServerCallback(){
+			@Override
+			public void Run(String response) {
+				JSONObject json;
+				try {
+					json= new JSONObject(response);
+					boolean success = json.getBoolean("success");
+					if(success){
+						Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
+						
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
+		
 		
 	}
 	private void getMsgFromServer(){
@@ -45,10 +79,9 @@ public class ChatScreen extends LocationActivity {
 							int from = msg.getJSONObject(i).getInt("FromUID");
 							int to = msg.getJSONObject(i).getInt("ToUID");
 							String datetime = msg.getJSONObject(i).getString("Timestamp");
-							DatabaseHelper db = DatabaseHelper.getInstance(null);
+							DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
 							db.insertMessage(content, from, to, datetime);
 						}//insert to local db finished.
-						
 						
 					}else{
 						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
@@ -60,7 +93,4 @@ public class ChatScreen extends LocationActivity {
 		};
 		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
 	}
-	
-	
-	
 }
