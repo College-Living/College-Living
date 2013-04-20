@@ -27,8 +27,10 @@ public class URIGridAdapter extends BaseAdapter {
 	private ArrayList<Tile> tiles;
 	private LayoutInflater inflater;
 	private DownloadImagesTask downloadTask;
+	private Context context;
 	
 	public URIGridAdapter(Context c, ArrayList<Tile> tiles) {
+		this.context = c;
 		this.inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.images = new ImageThumb[tiles.size()];
 		this.tiles = tiles;
@@ -68,11 +70,21 @@ public class URIGridAdapter extends BaseAdapter {
 		ImageThumb img = images[position];
 		if(img.image != null) {
 			view.setImageBitmap(img.image);
+		} else {
+			view.setImageDrawable(context.getResources().getDrawable(R.drawable.img_placeholder));
 		}
 		
-		title.setText(tiles.get(position).getTopBar());
-		primary_info.setText(tiles.get(position).getPrimaryInfo());
-		secondary_info.setText(tiles.get(position).getSecondaryInfo());
+		String top_bar_text = tiles.get(position).getTopBar(); 
+		String primary_text = tiles.get(position).getPrimaryInfo();
+		String secondary_text = tiles.get(position).getSecondaryInfo();
+		title.setText(top_bar_text);
+		primary_info.setText(primary_text);
+		if(secondary_text.equals(""))
+			secondary_info.setVisibility(View.GONE);
+		else {
+			secondary_info.setVisibility(View.VISIBLE);
+			secondary_info.setText(tiles.get(position).getSecondaryInfo());
+		}
 
 		return frame;
 	}
@@ -133,7 +145,7 @@ public class URIGridAdapter extends BaseAdapter {
 			for(int i = 0; i < images.length; i++) {
 				ImageThumb img = images[i];
 				if(img.getImage() != null) continue;
-				img.setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/apartment_thumbs/"+img.url));
+				img.setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/"+img.url));
 				publishProgress();
 			}
 			return null;

@@ -62,7 +62,7 @@ public class QuestionSpinnerAdapter extends ArrayAdapter<Question.QuestionOption
     public View getDropDownView(int position, View convertView,
             ViewGroup parent) {
     	TextView label = new TextView(context);
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(Color.WHITE);
         // Then you can get the current item using the values array (Users array) and the current position
         // You can NOW reference each method you has created in your bean object (User class)
         Question.QuestionOption opt = options.get(position);
