@@ -4,6 +4,7 @@
         android:id="@+id/refresh"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Refresh"/>
+        android:title="Refresh"
+        android:icon="@drawable/refresh" />
 
 </menu>

@@ -1,40 +1,37 @@
 package com.collegeliving;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ApartmentScreen extends LocationActivity {
+public class RoomieScreen extends LocationActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_profile);
 		Bundle extras = getIntent().getExtras();
-		int aptID = 0;
+		int roomieID = 0;
 		if(extras != null)
-			aptID = extras.getInt("AptID");
-		getApartmentInfo(aptID);
+			roomieID = extras.getInt("RoomieID");
+		getRoomieInfo(roomieID);
 	}
 	
-	public void getApartmentInfo(int aptID) {
+	public void getRoomieInfo(int roomieID) {
 		DatabaseHelper db = DatabaseHelper.getInstance(this);
-		ApartmentRecord apartment = db.getPad(aptID);
-		if(apartment != null)
-			loadApartmentInfo(apartment.aptName, apartment.website, apartment.email, apartment.phone, apartment.aboutApt, apartment.thumbnailURL);
+		RoomieRecord roomie = db.getRoomie(roomieID);
+		if(roomie != null)
+			loadRoomieInfo(roomie.displayName, roomie.email, roomie.phone, roomie.aboutMe, roomie.thumbnailURL);
 		else
 			this.finish();
 	}
 	
-	public void loadApartmentInfo(String aptName, String website, String email, String phone, String about, String photoUrl) {
+	public void loadRoomieInfo(String displayName, String email, String phone, String about, String photoUrl) {
 		TextView tv_displayName = (TextView) findViewById(R.id.display_name);
-		TextView tv_website = (TextView) findViewById(R.id.profile_website);
 		TextView tv_email = (TextView) findViewById(R.id.profile_email);
 		TextView tv_phone = (TextView) findViewById(R.id.profile_pnumber);
 		TextView tv_about = (TextView) findViewById(R.id.profile_about_me);
@@ -43,14 +40,10 @@ public class ApartmentScreen extends LocationActivity {
 			tv_email.setText(Html.fromHtml("<i>Not provided</i>"));
 		else
 			tv_email.setText(email);
-		if(aptName.equals(""))
+		if(displayName.equals(""))
 			tv_displayName.setText(Html.fromHtml("<i>Not provided</i>"));
 		else
-			tv_displayName.setText(aptName);
-		if(website.equals(""))
-			tv_website.setText(Html.fromHtml("<i>Not provided</i>"));
-		else
-			tv_website.setText(website);
+			tv_displayName.setText(displayName);
 		if(phone.equals(""))
 			tv_phone.setText(Html.fromHtml("<i>Not provided</i>"));
 		else
@@ -61,6 +54,12 @@ public class ApartmentScreen extends LocationActivity {
 			tv_about.setText(Html.fromHtml(about));
 		if(photoUrl.length() != 0)
 			new ImageLoader(img, "http://"+ServerPost.server_ip+"/collegeliving/"+photoUrl);
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_roomie_screen, menu);
+	    return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 

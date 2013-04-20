@@ -65,7 +65,6 @@ public class ApartmentList extends LocationActivity {
 		}
 		ServerCallback callback = new ServerCallback() {
 			public void Run(String response) {
-				ArrayList<Tile> apartmentTiles = new ArrayList<Tile>();
 				DatabaseHelper db = DatabaseHelper.getInstance(ApartmentList.this);
 				db.clearPads();
 				try {

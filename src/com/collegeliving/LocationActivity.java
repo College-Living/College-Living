@@ -63,11 +63,17 @@ public abstract class LocationActivity extends Activity implements LocationListe
 	}
 	
 	public double getLatitude() {
-		return getLocation().getLatitude();
+		if(getLocation() == null)
+			return 0;
+		else 
+			return getLocation().getLatitude();
 	}
 	
 	public double getLongitude() {
-		return getLocation().getLongitude();
+		if(getLocation() == null)
+			return 0;
+		else 
+			return getLocation().getLongitude();
 	}
 	
 	public void registerGPS(String provider) {

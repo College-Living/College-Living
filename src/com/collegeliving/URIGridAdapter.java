@@ -27,8 +27,10 @@ public class URIGridAdapter extends BaseAdapter {
 	private ArrayList<Tile> tiles;
 	private LayoutInflater inflater;
 	private DownloadImagesTask downloadTask;
+	private Context context;
 	
 	public URIGridAdapter(Context c, ArrayList<Tile> tiles) {
+		this.context = c;
 		this.inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.images = new ImageThumb[tiles.size()];
 		this.tiles = tiles;
@@ -68,6 +70,8 @@ public class URIGridAdapter extends BaseAdapter {
 		ImageThumb img = images[position];
 		if(img.image != null) {
 			view.setImageBitmap(img.image);
+		} else {
+			view.setImageDrawable(context.getResources().getDrawable(R.drawable.img_placeholder));
 		}
 		
 		String top_bar_text = tiles.get(position).getTopBar(); 

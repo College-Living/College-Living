@@ -256,6 +256,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return roomies;
 	}
 	
+	public RoomieRecord getRoomie(int roomieID) {
+		RoomieRecord roomie = null;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Roomie.TABLE, null, Roomie.ID+" = ?", new String[] {String.valueOf(roomieID)}, null, null, Roomie.COMPATIBILITY+" DESC");
+		if(cursor.moveToFirst()) {
+			int uid = cursor.getInt(cursor.getColumnIndex(Roomie.ID));
+			String displayName = cursor.getString(cursor.getColumnIndex(Roomie.DISPLAY_NAME));
+			String email = cursor.getString(cursor.getColumnIndex(Roomie.EMAIL));
+			String phone = cursor.getString(cursor.getColumnIndex(Roomie.PHONE));
+			String aboutMe = cursor.getString(cursor.getColumnIndex(Roomie.ABOUT_ME));
+			double compatScore = cursor.getDouble(cursor.getColumnIndex(Roomie.COMPATIBILITY));
+			String thumbnail = cursor.getString(cursor.getColumnIndex(Roomie.THUMBNAIL_URL));
+			roomie = new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore);
+		}
+		return roomie;
+	}
+	
 	public void clearRoomies() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		dropRoomieTable(db);

@@ -42,9 +42,9 @@ public class RoomiesList extends LocationActivity {
 				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
 				Tile apartment = adapter.getItem(position);
 				int aptID = apartment.id;
-				Intent aptScreen = new Intent(v.getContext(), ApartmentScreen.class);
-				aptScreen.putExtra("AptID", aptID);
-				startActivity(aptScreen);
+				Intent roomieScreen = new Intent(v.getContext(), RoomieScreen.class);
+				roomieScreen.putExtra("RoomieID", aptID);
+				startActivity(roomieScreen);
 			}
 		});
 		URIGridAdapter adapter = new URIGridAdapter(this, tiles);
