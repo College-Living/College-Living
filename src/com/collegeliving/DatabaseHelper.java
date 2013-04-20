@@ -42,6 +42,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String THUMBNAIL_URL = "ThumbnailURL";
 	}
 	
+	static public class Message {
+		static String TABLE = "Message";
+		static String ID = "MsgID";
+		static String SENT_FROM = "FromUID";
+		static String SEND_TO = "ToUID";
+		static String DATE = "Timestamp";
+		static String CONTENT = "Content";
+	}
+	
 	static public DatabaseHelper getInstance(Context ctx) {
 		if(mInstance == null)
 			mInstance = new DatabaseHelper(ctx.getApplicationContext());
@@ -79,6 +88,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						 Pad.PRICE_RANGE + " TEXT" +
 						 ");";
 		db.execSQL(pad_sql);
+		String msg_sql = "CREATE TABLE IF NOT EXISTS "+Message.TABLE + " (" +
+				 Message.ID+" INTEGER PRIMARY KEY AUTO INCREMENT, " +
+				 Message.CONTENT+ " VARCHAR(1000), " +
+				 Message.SENT_FROM+ " INTEGER, " +
+				 Message.SEND_TO+ " INTEGER, " +
+				 Message.DATE + " DATETIME " +
+				 ");";
+		db.execSQL(msg_sql);
+	}
+	
+	public long insertMessage(String content, int from, int to, String date) {
+		long rowID = -1;
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		cv.put(Message.SENT_FROM, from);
+		cv.put(Message.SEND_TO, to);
+		cv.put(Message.DATE, date);
+		cv.put(Message.CONTENT, content);
+		rowID = db.insert(Message.TABLE, null, cv);
+		return rowID;
+	}
+	
+	public ArrayList<MsgRecord> getConversation(int user1, int user2) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		String uid1 = String.valueOf(user1);
+		String uid2 = String.valueOf(user2);
+		Cursor cursor = db.query(Message.TABLE, null, "("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"= ?) OR ("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+")", new String[] {uid1, uid2, uid2, uid1}, null, null, Message.DATE);
+		ArrayList<MsgRecord> messages = new ArrayList<MsgRecord>();
+		if(cursor.moveToFirst()) {
+			do {
+			String content = cursor.getString(cursor.getColumnIndex(Message.CONTENT));
+			String date = cursor.getString(cursor.getColumnIndex(Message.DATE));
+			int from = cursor.getInt(cursor.getColumnIndex(Message.SENT_FROM));
+			int to = cursor.getInt(cursor.getColumnIndex(Message.SEND_TO));;
+			messages.add(new MsgRecord(content, date, from, to));
+			} while(cursor.moveToNext());
+		}
+		return messages;
 	}
 	
 	public long insertOrUpdatePad(int aptID, String aptName, String price, double distance, double lon, double lat, String website, String phone, String email, String aboutApt, String thumbnailURL) {
