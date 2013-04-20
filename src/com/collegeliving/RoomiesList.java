@@ -31,6 +31,7 @@ public class RoomiesList extends LocationActivity {
 		try {
 			json.put("lat", getLatitude());
 			json.put("long", getLongitude());
+			json.put("uid", this.getLoggedInUser());
 			json.put("delta", (double) distance/radius); 
 		} catch (JSONException e) {
 			e.printStackTrace();
