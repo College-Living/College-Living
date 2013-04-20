@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static DatabaseHelper mInstance = null;
 	static String DB_NAME = "CollegeLivingDB";
-	static int DB_VERSION = 6;
+	static int DB_VERSION = 1;
 	
 	static public class Roomie {
 		static String TABLE = "Roomie";
@@ -50,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String SEND_TO = "ToUID";
 		static String DATE = "Timestamp";
 		static String CONTENT = "Content";
+		static String UID = "UID";
 	}
 	
 	static public DatabaseHelper getInstance(Context ctx) {
@@ -92,6 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(pad_sql);
 		String msg_sql = "CREATE TABLE IF NOT EXISTS "+Message.TABLE + " (" +
 				 Message.ID+" INTEGER AUTO INCREMENT PRIMARY KEY, " +
+				 Message.UID + " INTEGER, " +
 				 Message.CONTENT+ " VARCHAR(1000), " +
 				 Message.SENT_FROM+ " INTEGER, " +
 				 Message.SEND_TO+ " INTEGER, " +
@@ -100,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(msg_sql);
 	}
 	
-	public long insertMessage(String content, int from, int to, String date) {
+	public long insertMessage(String content, int userID, int from, int to, String date) {
 		long rowID = -1;
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues cv = new ContentValues();
@@ -108,15 +110,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put(Message.SEND_TO, to);
 		cv.put(Message.DATE, date);
 		cv.put(Message.CONTENT, content);
+		cv.put(Message.UID, userID);
 		rowID = db.insert(Message.TABLE, null, cv);
 		return rowID;
 	}
 	
-	public ArrayList<MsgRecord> getConversation(int user1, int user2) {
+	public ArrayList<MsgRecord> getConversation(int loggedInUser, int otherUser) {
 		SQLiteDatabase db = this.getReadableDatabase();
-		String uid1 = String.valueOf(user1);
-		String uid2 = String.valueOf(user2);
-		Cursor cursor = db.query(Message.TABLE, null, "("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"= ?) OR ("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"=?)", new String[] {uid1, uid2, uid2, uid1}, null, null, Message.DATE);
+		String uid1 = String.valueOf(loggedInUser);
+		String uid2 = String.valueOf(otherUser);
+		Cursor cursor = db.query(Message.TABLE, null, "(("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"= ?) OR ("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"=?)) AND UID = ?", new String[] {uid1, uid2, uid2, uid1, uid1}, null, null, Message.DATE);
 		ArrayList<MsgRecord> messages = new ArrayList<MsgRecord>();
 		if(cursor.moveToFirst()) {
 			do {

@@ -47,7 +47,7 @@ public class ChatScreen extends LocationActivity {
 			public void handleMessage(Message msg) {
 				switch(msg.what) {
 				case REFRESH:
-					getMsgFromServer();
+					draw();
 				}
 			}
 		};
@@ -78,8 +78,9 @@ public class ChatScreen extends LocationActivity {
 		DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
 		ArrayList<MsgRecord> msgs = db.getConversation(this.getLoggedInUser(), chat_with_id);
 		Log.i("size", ""+msgs.size());
-		MessageBubbleAdapter adapter = new MessageBubbleAdapter(this,msgs);
 		ListView window = (ListView) findViewById(R.id.ChatWindow);
+		window.setAdapter(null);
+		MessageBubbleAdapter adapter = new MessageBubbleAdapter(this,msgs);
 		window.setAdapter(adapter);
 	}
 	private void sendMsg(){
@@ -96,7 +97,7 @@ public class ChatScreen extends LocationActivity {
 			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 			String datetime = ft.format(new Date());
 			DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
-			db.insertMessage(msg, user_id, chat_with_id, datetime);
+			db.insertMessage(msg, user_id, user_id, chat_with_id, datetime);
 			draw();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -124,7 +125,7 @@ public class ChatScreen extends LocationActivity {
 		};
 		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
 		
-		
+		message_box.setText("");
 	}
 	private void getMsgFromServer(){
 		int user_id = this.getLoggedInUser();
@@ -148,11 +149,12 @@ public class ChatScreen extends LocationActivity {
 						JSONArray msg = json.getJSONArray("msg_obj");
 						for(int i=0; i<msg.length(); i++){
 							String content = msg.getJSONObject(i).getString("Content");
+							Log.i("msg", content);
 							int from = msg.getJSONObject(i).getInt("FromUID");
 							int to = msg.getJSONObject(i).getInt("ToUID");
 							String datetime = msg.getJSONObject(i).getString("Timestamp");
 							DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
-							db.insertMessage(content, from, to, datetime);
+							db.insertMessage(content, ChatScreen.this.getLoggedInUser(), from, to, datetime);
 						}//insert to local db finished.
 						draw();
 					}else{
