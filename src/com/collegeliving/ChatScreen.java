@@ -47,7 +47,7 @@ public class ChatScreen extends LocationActivity {
 			public void handleMessage(Message msg) {
 				switch(msg.what) {
 				case REFRESH:
-					draw();
+					getMsgFromServer();
 				}
 			}
 		};
@@ -84,10 +84,8 @@ public class ChatScreen extends LocationActivity {
 		window.setAdapter(adapter);
 	}
 	private void sendMsg(){
-		SharedPreferences preferences = getSharedPreferences("UserSharedPreferences", 0);
 		int user_id = this.getLoggedInUser();
 		String msg = message_box.getText().toString();
-		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 		JSONObject json = new JSONObject();
 		try {
 			json.put("method", "send");
@@ -112,7 +110,7 @@ public class ChatScreen extends LocationActivity {
 					json= new JSONObject(response);
 					boolean success = json.getBoolean("success");
 					if(success){
-						Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT).show();
+
 					}else{
 						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
 						
