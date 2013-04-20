@@ -116,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		String uid1 = String.valueOf(user1);
 		String uid2 = String.valueOf(user2);
-		Cursor cursor = db.query(Message.TABLE, null, "("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"= ?) OR ("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+")", new String[] {uid1, uid2, uid2, uid1}, null, null, Message.DATE);
+		Cursor cursor = db.query(Message.TABLE, null, "("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"= ?) OR ("+Message.SENT_FROM+"=? AND "+Message.SEND_TO+"=?)", new String[] {uid1, uid2, uid2, uid1}, null, null, Message.DATE);
 		ArrayList<MsgRecord> messages = new ArrayList<MsgRecord>();
 		if(cursor.moveToFirst()) {
 			do {

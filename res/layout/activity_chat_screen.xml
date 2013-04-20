@@ -10,7 +10,13 @@
         android:id="@+id/ScrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="95">
+        android:layout_weight="95" >
+
+        <ListView
+            android:id="@+id/ChatWindow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ListView>
     </ScrollView>
 
     <LinearLayout
@@ -18,17 +24,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:gravity="bottom"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/message_sending"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Type Message Here" >
-
+            android:hint="Type Message Here"
+            android:singleLine="true" >
             <requestFocus />
         </EditText>
+
+        <Button
+            android:id="@+id/send_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send" />
+
     </LinearLayout>
 
 </LinearLayout>

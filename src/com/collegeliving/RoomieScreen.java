@@ -1,6 +1,7 @@
 package com.collegeliving;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -10,12 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RoomieScreen extends LocationActivity {
+	int roomieID = 0;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_profile);
 		Bundle extras = getIntent().getExtras();
-		int roomieID = 0;
+		roomieID = 0;
 		if(extras != null)
 			roomieID = extras.getInt("RoomieID");
 		getRoomieInfo(roomieID);
@@ -62,6 +64,12 @@ public class RoomieScreen extends LocationActivity {
 	    return true;
 	}
 	
+	private void startChat() {
+		Intent chat = new Intent(this, ChatScreen.class);
+		chat.putExtra("chatWithUID", roomieID);
+		startActivity(chat);
+	}
+	
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
 	    switch (item.getItemId()) 
@@ -69,6 +77,10 @@ public class RoomieScreen extends LocationActivity {
 	    case android.R.id.home: 
 	        onBackPressed();
 	        break;
+	        
+	    case R.id.message:
+	    	startChat();
+	    	break;
 
 	    default:
 	        return super.onOptionsItemSelected(item);
