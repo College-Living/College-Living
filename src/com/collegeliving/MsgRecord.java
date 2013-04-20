@@ -6,7 +6,9 @@ public class MsgRecord {
 	public int from;
 	public int to;
 	public MsgRecord(String content, String date, int from, int to){
-
-		
+		this.content = content;
+		this.date = date;
+		this.from = from;
+		this.to = to;
 	}
 }
