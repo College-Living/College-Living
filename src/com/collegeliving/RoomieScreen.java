@@ -37,7 +37,7 @@ public class RoomieScreen extends LocationActivity {
 	
 	public RoomieRecord getRoomieInfo(int roomieID) {
 		DatabaseHelper db = DatabaseHelper.getInstance(this);
-		RoomieRecord roomie = db.getRoomie(roomieID);
+		RoomieRecord roomie = db.getRoomie(this.getLoggedInUser(), roomieID);
 		return roomie;
 	}
 	

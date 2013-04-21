@@ -9,8 +9,9 @@ public class RoomieRecord {
 	public String aboutMe;
 	public String thumbnailURL;
 	public String thumbnailCache;
+	public int unreadCount;
 	
-	public RoomieRecord(int uID, String displayName, String phone, String email, String aboutMe, String thumbnailURL, double compatScore) {
+	public RoomieRecord(int uID, String displayName, String phone, String email, String aboutMe, String thumbnailURL, double compatScore, int unreadCount) {
 		this.uID = uID;
 		this.displayName = displayName;
 		this.phone = phone;
@@ -18,5 +19,6 @@ public class RoomieRecord {
 		this.aboutMe = aboutMe;
 		this.thumbnailURL = thumbnailURL;
 		this.compatScore = compatScore;
+		this.unreadCount = unreadCount;
 	}
 }

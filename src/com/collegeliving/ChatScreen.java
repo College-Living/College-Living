@@ -21,12 +21,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ChatScreen extends LocationActivity {
+public class ChatScreen extends MessageSyncActivity {
 	private int chat_with_id=0;
 	static final int REFRESH = 1;
-	private Handler handler;
-	private TimerTask task;
-	private Timer timer;
 	private EditText message_box;
 	private Button sendBtn;
 	private ListView window;
@@ -41,22 +38,6 @@ public class ChatScreen extends LocationActivity {
 			displayName = extras.getString("displayName");
 		}
 		getActionBar().setTitle("Chat with "+displayName);
-		handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch(msg.what) {
-				case REFRESH:
-					getMsgFromServer();
-				}
-			}
-		};
-		task = new TimerTask() {
-			public void run() {
-				ChatScreen.this.getHandler().sendEmptyMessage(ChatScreen.REFRESH);
-			}
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 5000);
 		window = (ListView) findViewById(R.id.ChatWindow);
 		message_box = (EditText) findViewById(R.id.message_sending);
 		sendBtn = (Button) findViewById(R.id.send_btn);
@@ -69,11 +50,6 @@ public class ChatScreen extends LocationActivity {
 		});
 		draw();
 	}
-	
-	public Handler getHandler() {
-		return handler;
-	}
-	
 
 	private void draw(){
 		DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
@@ -85,6 +61,12 @@ public class ChatScreen extends LocationActivity {
 		} else {			
 			adapter.updateData(msgs);
 		}
+		setReadFlag();
+	}
+	
+	private void setReadFlag() {
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		db.setReadFlag(this.getLoggedInUser(), this.chat_with_id);
 	}
 	
 	private void sendMsg(){
@@ -93,7 +75,7 @@ public class ChatScreen extends LocationActivity {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("method", "send");
-			json.put("FromUID", user_id);
+			json.put("FromID", user_id);
 			json.put("ToUID", chat_with_id);
 			json.put("message", msg);
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -121,45 +103,6 @@ public class ChatScreen extends LocationActivity {
 		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
 		message_box.setText("");
 	}
-	private void getMsgFromServer(){
-		int user_id = this.getLoggedInUser();
-		JSONObject json = new JSONObject();
-		try {
-			json.put("method", "retrieve");
-			json.put("FromUID", user_id);
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		ServerCallback msgResponse = new ServerCallback(){
-			@Override
-			public void Run(String response) {
-				JSONObject json;
-				try {
-					json = new JSONObject(response);
-					boolean success = json.getBoolean("success");
-					if(success){
-						JSONArray msgs = json.getJSONArray("msg_obj");
-						for(int i=0; i<msgs.length(); i++){
-							JSONObject msg = msgs.getJSONObject(i);
-							String content = msg.getString("Content");
-							int from = msg.getInt("FromUID");
-							int to = msg.getInt("ToUID");
-							String datetime = msg.getString("Timestamp");
-							DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
-							db.insertMessage(content, ChatScreen.this.getLoggedInUser(), from, to, datetime);
-						}
-						if(msgs.length() > 0)
-							draw();
-					}
-				} catch (JSONException e) {
-					Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				}	
-			}
-		};
-		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
-	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
@@ -173,10 +116,12 @@ public class ChatScreen extends LocationActivity {
 	    }
 	    return true;
 	}
-	
-	protected void onPause() {
-		super.onPause();
-		timer.cancel();
+
+	@Override
+	protected void onNewMessageReceive(JSONArray msgs) {
+		if(msgs.length() > 0) {
+			draw();
+		}
 	}
 	
 }

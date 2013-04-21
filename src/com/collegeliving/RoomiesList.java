@@ -30,20 +30,21 @@ public class RoomiesList extends LocationActivity {
 	private void draw() {
 		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		DatabaseHelper db = DatabaseHelper.getInstance(this);
-		ArrayList<RoomieRecord> records = db.getRoomies();
+		ArrayList<RoomieRecord> records = db.getRoomies(this.getLoggedInUser());
 		for(int i = 0; i < records.size(); i++) {
 			RoomieRecord record = records.get(i);
-			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", "", record.thumbnailURL));
+			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", record.unreadCount+"", record.thumbnailURL));
 		}
 		GridView grid = (GridView) findViewById(R.id.grid);
 		grid.setAdapter(null);
 		grid.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
-				Tile apartment = adapter.getItem(position);
-				int aptID = apartment.id;
+				Tile roomie = adapter.getItem(position);
+				int roomieID = roomie.id;
+				Log.i("roomieID", roomieID+"");
 				Intent roomieScreen = new Intent(v.getContext(), RoomieScreen.class);
-				roomieScreen.putExtra("RoomieID", aptID);
+				roomieScreen.putExtra("RoomieID", roomieID);
 				startActivity(roomieScreen);
 			}
 		});
@@ -54,22 +55,22 @@ public class RoomiesList extends LocationActivity {
 	
 	private void getLocalRoomies() {
 		JSONObject json = new JSONObject();
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
 		try {
 			json.put("lat", getLatitude());
 			json.put("long", getLongitude());
 			json.put("uid", this.getLoggedInUser());
+			json.put("chat_uids", new JSONArray(db.getRoomiesWithChatHistory(this.getLoggedInUser())));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		ServerCallback callback = new ServerCallback() {
 			public void Run(String response) {
-				ArrayList<Tile> roomiesTiles = new ArrayList<Tile>();
 				DatabaseHelper db = DatabaseHelper.getInstance(RoomiesList.this);
 				db.clearRoomies();
 				try {
 					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
-					Log.i("sql", json.getString("query"));
 					boolean success = json.getBoolean("success");
 					if(success) {
 						JSONArray jRoomies = json.getJSONArray("roomies");

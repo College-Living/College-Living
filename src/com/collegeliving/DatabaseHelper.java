@@ -25,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String ABOUT_ME = "AboutMe";
 		static String THUMBNAIL_CACHE = "ThumbnailCache";
 		static String THUMBNAIL_URL = "ThumbnailURL";
+		static String MSG_COUNT = "MsgCount";
 	}
 	
 	static public class Pad {
@@ -50,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		static String SEND_TO = "ToUID";
 		static String DATE = "Timestamp";
 		static String CONTENT = "Content";
+		static String READ="Read";
 		static String UID = "UID";
 	}
 	
@@ -92,12 +94,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						 ");";
 		db.execSQL(pad_sql);
 		String msg_sql = "CREATE TABLE IF NOT EXISTS "+Message.TABLE + " (" +
-				 Message.ID+" INTEGER AUTO INCREMENT PRIMARY KEY, " +
+				 Message.ID+" INTEGER PRIMARY KEY, " +
 				 Message.UID + " INTEGER, " +
 				 Message.CONTENT+ " VARCHAR(1000), " +
 				 Message.SENT_FROM+ " INTEGER, " +
 				 Message.SEND_TO+ " INTEGER, " +
-				 Message.DATE + " DATETIME " +
+				 Message.DATE + " DATETIME, " +
+				 Message.READ + " TINYINT(1)" +
 				 ");";
 		db.execSQL(msg_sql);
 	}
@@ -111,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put(Message.DATE, date);
 		cv.put(Message.CONTENT, content);
 		cv.put(Message.UID, userID);
+		cv.put(Message.READ, 0);
 		rowID = db.insert(Message.TABLE, null, cv);
 		return rowID;
 	}
@@ -240,10 +244,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		else return false;
 	}
 	
-	public ArrayList<RoomieRecord> getRoomies() {
+	public ArrayList<RoomieRecord> getRoomies(int userID) {
 		ArrayList<RoomieRecord> roomies = new ArrayList<RoomieRecord>();
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.query(Roomie.TABLE, null, null, null, null, null, Roomie.COMPATIBILITY+" DESC");
+		Cursor cursor = getRoomiesWithUnreadCount(userID); //db.query(Roomie.TABLE, null, null, null, null, null, Roomie.COMPATIBILITY+" DESC");
 		if(cursor.moveToFirst()) {
 			do {
 				int uid = cursor.getInt(cursor.getColumnIndex(Roomie.ID));
@@ -253,16 +256,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				String aboutMe = cursor.getString(cursor.getColumnIndex(Roomie.ABOUT_ME));
 				double compatScore = cursor.getDouble(cursor.getColumnIndex(Roomie.COMPATIBILITY));
 				String thumbnail = cursor.getString(cursor.getColumnIndex(Roomie.THUMBNAIL_URL));
-				roomies.add(new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore));
+				int unreadCount = cursor.getInt(cursor.getColumnIndex(Roomie.MSG_COUNT));
+				roomies.add(new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore, unreadCount));
 			} while(cursor.moveToNext());
 		}
 		return roomies;
 	}
 	
-	public RoomieRecord getRoomie(int roomieID) {
+	private Cursor getRoomiesWithUnreadCount(int userID) {
+		String sql = "SELECT "+Roomie.TABLE+".*, " +
+					 		"(SELECT COUNT(*) FROM "+Message.TABLE+" WHERE "+
+					 		Message.UID+" = ?"+ " AND "+Message.SEND_TO+" = ? AND "+Message.READ+" = 0 AND "+Message.SENT_FROM+" = "+Roomie.TABLE+"."+Roomie.ID+") AS '"+Roomie.MSG_COUNT+"' " +
+					 "FROM "+Roomie.TABLE +" "+
+					 "ORDER BY "+Roomie.MSG_COUNT+" DESC,"+Roomie.COMPATIBILITY+" DESC";
+		SQLiteDatabase db = this.getReadableDatabase();
+		Log.i("unread_sql", sql);
+		return db.rawQuery(sql, new String[] {String.valueOf(userID), String.valueOf(userID) });
+	}
+	
+	private Cursor getRoomieWithUnreadCount(int userID, int roomieID) {
+		String sql = "SELECT "+Roomie.TABLE+".*, " +
+					 		"(SELECT COUNT(*) FROM "+Message.TABLE+" WHERE "+
+					 		Message.UID+" = ?"+ " AND "+Message.SEND_TO+" = ? AND "+Message.SENT_FROM+" = ? AND "+Message.READ+" = 0) AS '"+Roomie.MSG_COUNT+"' " +
+					 "FROM "+Roomie.TABLE +" "+
+					 "WHERE "+Roomie.ID+" = ? " +
+					 "ORDER BY "+Roomie.MSG_COUNT+" DESC,"+Roomie.COMPATIBILITY+" DESC";
+		SQLiteDatabase db = this.getReadableDatabase();
+		Log.i("unread_sql", sql);
+		return db.rawQuery(sql, new String[] {String.valueOf(userID), String.valueOf(userID), String.valueOf(roomieID), String.valueOf(roomieID) });
+	}
+	
+	public void setReadFlag(int user_id, int roomie_id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		cv.put(Message.READ, 1);
+		db.update(Message.TABLE, cv, Message.UID+"= ? AND "+Message.SENT_FROM+"=?", new String[] {user_id+"", roomie_id+""});
+	}
+	
+	public ArrayList<Integer> getRoomiesWithChatHistory(int userID) {
+		ArrayList<Integer> roomie_ids = new ArrayList<Integer>();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(Message.TABLE, null, Message.UID+"= ?", new String[] { String.valueOf(userID)}, null, null, null);
+		if(cursor.moveToFirst()) {
+			do {
+				int from = cursor.getInt(cursor.getColumnIndex(Message.SENT_FROM));
+				int to = cursor.getInt(cursor.getColumnIndex(Message.SEND_TO));
+				if(from != userID && !roomie_ids.contains(from))
+					roomie_ids.add(from);
+				else if(to != userID && !roomie_ids.contains(to))
+					roomie_ids.add(to);
+			} while(cursor.moveToNext());
+		}
+		return roomie_ids;
+	}
+	
+	public RoomieRecord getRoomie(int userID, int roomieID) {
 		RoomieRecord roomie = null;
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.query(Roomie.TABLE, null, Roomie.ID+" = ?", new String[] {String.valueOf(roomieID)}, null, null, Roomie.COMPATIBILITY+" DESC");
+		Cursor cursor = getRoomieWithUnreadCount(userID, roomieID);
 		if(cursor.moveToFirst()) {
 			int uid = cursor.getInt(cursor.getColumnIndex(Roomie.ID));
 			String displayName = cursor.getString(cursor.getColumnIndex(Roomie.DISPLAY_NAME));
@@ -271,7 +322,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			String aboutMe = cursor.getString(cursor.getColumnIndex(Roomie.ABOUT_ME));
 			double compatScore = cursor.getDouble(cursor.getColumnIndex(Roomie.COMPATIBILITY));
 			String thumbnail = cursor.getString(cursor.getColumnIndex(Roomie.THUMBNAIL_URL));
-			roomie = new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore);
+			int unreadCount = cursor.getInt(cursor.getColumnIndex(Roomie.MSG_COUNT));
+			roomie = new RoomieRecord(uid, displayName, phone, email, aboutMe, thumbnail, compatScore, unreadCount);
 		}
 		return roomie;
 	}
