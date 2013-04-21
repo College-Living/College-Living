@@ -81,6 +81,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>
+        
+        <activity
+            android:name="com.collegeliving.MyProfileScreen"
+            android:label="@string/app_name" 
+            android:theme="@style/ActionBarWithTitle"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

@@ -3,224 +3,120 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/banner_bg" >"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="208dp" >
+        android:layout_height="200dp" >
 
         <ImageView
             android:id="@+id/profile_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/img_placeholder" />
 
-        <EditText
-            android:id="@+id/display_name"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/profile_img"
-            android:layout_gravity="left"
-            android:ems="10"
-			android:background="@color/seethru_white"
-            android:paddingBottom="10dp"
-		    android:paddingTop="10dp"
-            android:inputType="textPersonName"
-            android:text="@string/display_name" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/seethru_black" >
 
+            <TextView
+                android:id="@+id/myprofile_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/display_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:background="@color/white">
-		
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:background="#DDD" >
+
+        <TableLayout
+            android:id="@+id/TableLayout1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/Name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Name"
-                    android:textSize="18dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <EditText
-                    android:id="@+id/profile_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toRightOf="@+id/Name"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_name" />
-
-                <Switch
-                    android:id="@+id/hide_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/Name"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/profile_name"
-                    android:textOff="Hide"
-                    android:textOn="Show"
-                    android:text="Hide1" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp" >
-
-                <TextView
-                    android:id="@+id/pEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_email"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Email"
-                    android:textSize="18dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <EditText
-                    android:id="@+id/profile_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:ems="10"
-                    android:inputType="textEmailAddress"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_email" />
-
-                <Switch
-                    android:id="@+id/hide_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/profile_email"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/profile_email"
-                    android:textOff="Hide"
-                    android:textOn="Show"
-                    android:text="Hide2" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <TableRow
+                style="@style/profile_table_row_pos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/pnumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/profile_pnumber"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Phone"
-                    android:textSize="18dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <Switch
-                    android:id="@+id/hide_pnumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/profile_pnumber"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/profile_pnumber"
-                    android:text="Hide3" 
-                    android:textOff="Hide"
-                    android:textOn="Show"/>
-
-                <EditText
-                    android:id="@+id/profile_pnumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:ems="10"
-                    android:inputType="phone"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="profile_pnumber" >
-
-                    <requestFocus />
-                </EditText>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/about_me"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/hide_about_me_text"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="About Me"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="18dp" />
-
-                <Switch
-                    android:id="@+id/hide_about_me_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:text="hide4" 
-                    android:textOff="Hide"
-                    android:textOn="Show"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <EditText
-                    android:id="@+id/profile_about_me"
+                    android:id="@+id/mp_Email"
+                    style="@style/profile_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:paddingBottom="10dp"
-		    		android:paddingTop="10dp"
-                    android:inputType="textMultiLine"
-                    android:text="profile_about_me" />
+                    android:text="Email" 
+					android:clickable="true"/>
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/myprofile_email"
+                    style="@style/profile_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:hint="Email" />
 
-        </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                style="@style/profile_table_row_neg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/mp_number"
+                    style="@style/profile_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone" 
+					android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/myprofile_pnumber"
+                    style="@style/profile_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="phone"
+                    android:hint="Phone #" />
+
+            </TableRow>
+
+            <TableRow
+                style="@style/profile_table_row_pos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/mp_about_me"
+                    style="@style/profile_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="About" 
+					android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/myprofile_about_me"
+                    style="@style/profile_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="About the Me" />
+
+            </TableRow>
+        </TableLayout>
     </ScrollView>
 
 </LinearLayout>
