@@ -25,7 +25,7 @@ public class MainScreen extends LocationActivity {
 		setContentView(R.layout.activity_main_screen);
 		setRoomiesTile();
 		setPadTile();
-		//setMyProfileTile();
+		setMyProfileTile();
 		setSettingsTile();
 	}
 
@@ -58,17 +58,15 @@ public class MainScreen extends LocationActivity {
 		});
 	}
 	
-	/*
 	public void setMyProfileTile(){
 		RelativeLayout myProfileTile = (RelativeLayout) findViewById(R.id.profile_tile);
 		myProfileTile.setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				Intent profileActivity = new Intent(v.getContext(), Profile.class);
+				Intent profileActivity = new Intent(v.getContext(), MyProfileScreen.class);
 				startActivity(profileActivity);
 			}
 		});
 	}
-	*/
 	
 	public void setSettingsTile() {
 		RelativeLayout settingsTile = (RelativeLayout) findViewById(R.id.setting_tile);
