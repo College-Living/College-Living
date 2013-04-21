@@ -51,69 +51,102 @@
 
             <TableRow
                 style="@style/profile_table_row_pos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="100" >
 
-                <TextView
-                    android:id="@+id/mp_Email"
-                    style="@style/profile_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Email" 
-					android:clickable="true"/>
+                    <TextView
+                        android:id="@+id/mp_Email"
+                        style="@style/profile_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="20"
+                        android:clickable="true"
+                        android:text="Email" />
+
+                    <ImageView
+                        android:id="@+id/email_padlock"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hidden"
+                        android:layout_weight="10" />
 
                 <TextView
                     android:id="@+id/myprofile_email"
                     style="@style/profile_info"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:autoLink="email"
-                    android:hint="Email" />
+                    android:hint="Email"
+                    android:layout_weight="70" />
 
             </TableRow>
 
             <TableRow
                 style="@style/profile_table_row_neg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_weight="100" >
 
                 <TextView
                     android:id="@+id/mp_number"
                     style="@style/profile_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Phone" 
-					android:clickable="true"/>
+					android:clickable="true"
+					android:layout_weight="20"
+					/>
+
+                <ImageView
+                    android:id="@+id/phone_padlock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/hidden"
+                    android:layout_weight="10" />
 
                 <TextView
                     android:id="@+id/myprofile_pnumber"
                     style="@style/profile_info"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
-                    android:hint="Phone #" />
+                    android:hint="Phone #" 
+                    android:layout_weight="70"
+                    />
 
             </TableRow>
 
             <TableRow
                 style="@style/profile_table_row_pos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_weight="100" >
 
                 <TextView
                     android:id="@+id/mp_about_me"
                     style="@style/profile_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="About" 
-					android:clickable="true"/>
+					android:clickable="true"
+					android:layout_weight="20"
+					/>
+
+                <ImageView
+                    android:id="@+id/about_padlock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/hidden"
+                    android:layout_weight="10" />
 
                 <TextView
                     android:id="@+id/myprofile_about_me"
                     style="@style/profile_info"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="About the Me" />
+                    android:hint="About the Me"
+                    android:layout_weight="70" />
 
             </TableRow>
         </TableLayout>

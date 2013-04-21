@@ -3,11 +3,13 @@ package com.collegeliving;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class MyProfileScreen extends LocationActivity{
 	TextView phone_content;
 	TextView aboutme_content;
 	TextView displayname_content;
+	ImageView img;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class MyProfileScreen extends LocationActivity{
 		phone_content = (TextView) findViewById(R.id.myprofile_pnumber);
 		aboutme_content = (TextView) findViewById(R.id.myprofile_about_me);
 		displayname_content = (TextView) findViewById(R.id.myprofile_display_name);
+		img = (ImageView) findViewById(R.id.profile_img);
 	}
 	protected void onResume(){
 		super.onResume();
@@ -62,6 +66,7 @@ public class MyProfileScreen extends LocationActivity{
 						String phone = json.getString("phone");
 						String aboutme = json.getString("aboutme");
 						String displayname = json.getString("displayname");
+						String photoUrl = json.getString("Thumbnail");
 						email_hide = json.getInt("email_toggle");
 						phone_hide = json.getInt("phone_toggle");
 						aboutme_hide = json.getInt("aboutme_toggle");
@@ -69,7 +74,9 @@ public class MyProfileScreen extends LocationActivity{
 						phone_content.setText(phone);
 						aboutme_content.setText(Html.fromHtml(aboutme));
 						displayname_content.setText(displayname);
-						drawStrikeThrough();
+						if(photoUrl.length() != 0)
+							new ImageLoader(img, "http://"+ServerPost.server_ip+"/collegeliving/"+photoUrl);
+						grabToggleState();
 					}else{
 						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
 					}
@@ -82,19 +89,24 @@ public class MyProfileScreen extends LocationActivity{
 	}
 	
 	
-	private void drawStrikeThrough(){
+	private void grabToggleState(){
+		ImageView email_toggle = (ImageView) findViewById(R.id.email_padlock);
+		ImageView phone_toggle = (ImageView) findViewById(R.id.phone_padlock);
+		ImageView about_toggle = (ImageView) findViewById(R.id.about_padlock);
+		Drawable visible = getResources().getDrawable(R.drawable.visible);
+		Drawable hidden = getResources().getDrawable(R.drawable.hidden);
 		if(email_hide==1)
-			email_toggle.setText(Html.fromHtml("<font color='grey'>Email</font>"));
+			email_toggle.setImageDrawable(hidden);
 		else
-			email_toggle.setText(Html.fromHtml("Email"));
+			email_toggle.setImageDrawable(visible);
 		if(phone_hide==1)
-			phone_toggle.setText(Html.fromHtml("<font color='grey'>Phone</font>"));
+			phone_toggle.setImageDrawable(hidden);
 		else
-			phone_toggle.setText(Html.fromHtml("Phone"));
+			phone_toggle.setImageDrawable(visible);
 		if(aboutme_hide==1)
-			aboutme_toggle.setText(Html.fromHtml("<font color='grey'>About Me</font>"));
+			about_toggle.setImageDrawable(hidden);
 		else
-			aboutme_toggle.setText(Html.fromHtml("About Me"));
+			about_toggle.setImageDrawable(visible);
 	}
 	
 	private JSONObject setJSONToggle(String toggle, String value){
@@ -125,7 +137,7 @@ public class MyProfileScreen extends LocationActivity{
 							json = new JSONObject(p);
 							boolean success = json.getBoolean("success");
 							if(success){
-								drawStrikeThrough();
+								grabToggleState();
 								String toast;
 								if(email_hide==1)
 									toast = "Email is hidden";
@@ -162,7 +174,7 @@ public class MyProfileScreen extends LocationActivity{
 							json = new JSONObject(p);
 							boolean success = json.getBoolean("success");
 							if(success){
-								drawStrikeThrough();
+								grabToggleState();
 								String toast;
 								if(phone_hide==1)
 									toast = "Phone# is hidden";
@@ -200,7 +212,7 @@ public class MyProfileScreen extends LocationActivity{
 							json = new JSONObject(p);
 							boolean success = json.getBoolean("success");
 							if(success){
-								drawStrikeThrough();
+								grabToggleState();
 								String toast;
 								if(aboutme_hide==1)
 									toast = "About Me is hidden";
