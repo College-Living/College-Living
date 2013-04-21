@@ -21,6 +21,15 @@
         
         
     </style>
+    
+    <style name="ActionBarWithTitle" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/Widget.ActionBar.Title</item>
+    </style>
+ 
+    <style name="Widget.ActionBar.Title" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:displayOptions">homeAsUp|showTitle|showHome|useLogo</item>
+    </style>
+    
     <style name="NoActionBarTitle" parent="AppTheme">
         <item name="android:actionBarStyle">@style/Widget.ActionBar.NoTitle</item>
     </style>

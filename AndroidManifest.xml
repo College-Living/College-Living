@@ -40,22 +40,22 @@
         
         <activity
             android:name="com.collegeliving.Settings"
-            android:label="@string/app_name" 
-            android:theme="@style/NoActionBarTitle"
+            android:label="Settings" 
+            android:theme="@style/ActionBarWithTitle"
             android:screenOrientation="portrait">
         </activity>
         
         <activity
             android:name="com.collegeliving.ApartmentList"
-            android:label="@string/app_name" 
-            android:theme="@style/NoActionBarTitle"
+            android:label="Pads" 
+            android:theme="@style/ActionBarWithTitle"
             android:screenOrientation="portrait">
         </activity>
         
         <activity
             android:name="com.collegeliving.RoomiesList"
-            android:label="@string/app_name" 
-            android:theme="@style/NoActionBarTitle"
+            android:label="Roomies" 
+            android:theme="@style/ActionBarWithTitle"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>
@@ -77,7 +77,7 @@
         <activity
             android:name="com.collegeliving.ChatScreen"
             android:label="@string/app_name" 
-            android:theme="@style/NoActionBarTitle"
+            android:theme="@style/ActionBarWithTitle"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>

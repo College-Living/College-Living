@@ -95,6 +95,11 @@ public class RoomiesList extends LocationActivity {
 		};
 		new ServerPost(json, callback).execute("/collegeliving/get/roomies.php");
 	}
+	
+	protected void onResume() {
+		super.onResume();
+		getLocalRoomies();
+	}
 		
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -117,6 +122,7 @@ public class RoomiesList extends LocationActivity {
 	    }
 	    return true;
 	}
+	
 	
 	@Override
 	public void onLocationChanged(Location arg0) {

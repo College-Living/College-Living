@@ -8,9 +8,16 @@
 
     <ListView
         android:id="@+id/ChatWindow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="95" >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="95"
+        android:transcriptMode="alwaysScroll" 
+        android:divider="@null"
+		android:dividerHeight="0dp"
+		android:listSelector="@android:color/transparent" 
+		android:cacheColorHint="@android:color/transparent"
+		
+>
     </ListView>
 
     <LinearLayout

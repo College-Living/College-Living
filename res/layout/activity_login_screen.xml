@@ -54,9 +54,11 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="E-mail"
+                android:inputType="textEmailAddress"
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textCursorDrawable="@null" />
+
            	  <requestFocus />
 
             <EditText
@@ -72,14 +74,6 @@
                 android:textCursorDrawable="@null" >
 
             </EditText>
-
-            <CheckBox
-                android:id="@+id/remember_me"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Remember Me"
-                android:textColor="@color/white" />
 
         </LinearLayout>
 
