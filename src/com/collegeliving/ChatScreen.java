@@ -75,7 +75,7 @@ public class ChatScreen extends MessageSyncActivity {
 		JSONObject json = new JSONObject();
 		try {
 			json.put("method", "send");
-			json.put("FromID", user_id);
+			json.put("FromUID", user_id);
 			json.put("ToUID", chat_with_id);
 			json.put("message", msg);
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

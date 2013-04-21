@@ -19,12 +19,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
 
-public class RoomiesList extends LocationActivity {
+public class RoomiesList extends MessageSyncActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_grid);
-		getLocalRoomies();
+		getRoomies();
 	}
 	
 	private void draw() {
@@ -53,7 +53,7 @@ public class RoomiesList extends LocationActivity {
 	}
 	
 	
-	private void getLocalRoomies() {
+	private void getRoomies() {
 		JSONObject json = new JSONObject();
 		DatabaseHelper db = DatabaseHelper.getInstance(this);
 		try {
@@ -99,7 +99,7 @@ public class RoomiesList extends LocationActivity {
 	
 	protected void onResume() {
 		super.onResume();
-		getLocalRoomies();
+		getRoomies();
 	}
 		
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,7 +116,7 @@ public class RoomiesList extends LocationActivity {
 	        onBackPressed();
 	        break;
 	    case R.id.refresh:
-	    	getLocalRoomies();
+	    	getRoomies();
 	    	break;
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -129,7 +129,13 @@ public class RoomiesList extends LocationActivity {
 	public void onLocationChanged(Location arg0) {
 		super.onLocationChanged(arg0);
 		if(arg0 != null) {
-			getLocalRoomies();
+			getRoomies();
 		}
+	}
+
+	@Override
+	protected void onNewMessageReceive(JSONArray msgs) {
+		if(msgs.length() > 0) getRoomies();
+		
 	}
 }

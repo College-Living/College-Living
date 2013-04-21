@@ -32,14 +32,6 @@ abstract public class MessageSyncActivity extends LocationActivity {
 				}
 			}
 		};
-		timer_task = new TimerTask() {
-			@Override
-			public void run() {
-				MessageSyncActivity.this.handler.sendEmptyMessage(MessageSyncActivity.REFRESH);
-			}			
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timer_task, 0, 5000);
 	}
 	
 	abstract protected void onNewMessageReceive(JSONArray msgs);
@@ -83,8 +75,26 @@ abstract public class MessageSyncActivity extends LocationActivity {
 		new ServerPost(json, msgResponse).execute("/collegeliving/post/message.php");
 	}
 	
+	private void startTimer() {
+		timer_task = new TimerTask() {
+			@Override
+			public void run() {
+				MessageSyncActivity.this.handler.sendEmptyMessage(MessageSyncActivity.REFRESH);
+			}			
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timer_task, 0, 5000);
+	}
+	
+	protected void onResume() {
+		super.onResume();
+		startTimer();
+	}
+	
 	protected void onPause() {
 		super.onPause();
+		timer_task.cancel();
 		timer.cancel();
+		timer.purge();
 	}
 }
