@@ -6,12 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +16,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.Toast;
 
 public class ApartmentList extends LocationActivity {
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +48,6 @@ public class ApartmentList extends LocationActivity {
 		});
 		URIGridAdapter adapter = (URIGridAdapter) grid.getAdapter();
 		if(adapter == null) {
-			Log.i("adp", "making new adapter");
-			Log.i("tile_size", tiles.size()+"");
 			adapter = new URIGridAdapter(this, tiles);
 			grid.setAdapter(adapter);
 		} else {
@@ -96,7 +90,7 @@ public class ApartmentList extends LocationActivity {
 						}
 						draw();
 					} else {
-						Log.e("error", json.getString("error"));
+						//error
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();

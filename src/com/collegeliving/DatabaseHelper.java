@@ -177,8 +177,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if(cursor.moveToFirst()) {
 			String aptName = cursor.getString(cursor.getColumnIndex(Pad.DISPLAY_NAME));
 			double distance = cursor.getDouble(cursor.getColumnIndex(Pad.DISTANCE));
-			double lon = cursor.getDouble(cursor.getColumnIndex(Pad.LONGITUDE));
-			double lat = cursor.getDouble(cursor.getColumnIndex(Pad.LATITUDE));
 			String website = cursor.getString(cursor.getColumnIndex(Pad.WEBSITE));
 			String phone = cursor.getString(cursor.getColumnIndex(Pad.PHONE));
 			String email = cursor.getString(cursor.getColumnIndex(Pad.EMAIL));
@@ -312,7 +310,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	public RoomieRecord getRoomie(int userID, int roomieID) {
 		RoomieRecord roomie = null;
-		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = getRoomieWithUnreadCount(userID, roomieID);
 		if(cursor.moveToFirst()) {
 			int uid = cursor.getInt(cursor.getColumnIndex(Roomie.ID));

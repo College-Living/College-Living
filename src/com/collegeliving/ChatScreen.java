@@ -3,16 +3,13 @@ package com.collegeliving;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,7 +75,7 @@ public class ChatScreen extends MessageSyncActivity {
 			json.put("FromUID", user_id);
 			json.put("ToUID", chat_with_id);
 			json.put("message", msg);
-			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 			String datetime = ft.format(new Date());
 			DatabaseHelper db = DatabaseHelper.getInstance(ChatScreen.this);
 			db.insertMessage(msg, user_id, user_id, chat_with_id, datetime);
@@ -90,10 +87,8 @@ public class ChatScreen extends MessageSyncActivity {
 		ServerCallback msgResponse = new ServerCallback(){
 			@Override
 			public void Run(String response) {
-				JSONObject json;
 				try {
-					json= new JSONObject(response);
-					boolean success = json.getBoolean("success");
+					new JSONObject(response);
 				} catch (JSONException e) {
 					Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
 					e.printStackTrace();

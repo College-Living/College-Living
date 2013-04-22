@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 public class RoomieScreen extends LocationActivity {
 	private int roomieID = 0;
-	private String displayName = "";
 	private RoomieRecord roomie;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

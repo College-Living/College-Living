@@ -17,7 +17,6 @@ public abstract class LocationActivity extends Activity implements LocationListe
 	private LocationManager lm;
 	private final int MIN_UPDATE_TIME = 1000 * 1 * 2; // every 5 minutes
 	private final int MIN_DISTANCE = 402; // .25 mile = 402; 1 MILE = 1609.34 meter
-	private final int REFRESH = 1;
 	private Location location;
 	
 	protected void onCreate(Bundle savedInstanceState) {

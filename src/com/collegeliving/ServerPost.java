@@ -33,7 +33,7 @@ public class ServerPost extends AsyncTask<String, Void, String> {
 		String url = params[0];
 		String responseString = "";
 		HttpClient http = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://"+this.server_ip+"/"+url);
+		HttpPost post = new HttpPost("http://"+ServerPost.server_ip+"/"+url);
 		try {
 			if(this.data != null) {
 				post.setEntity(new StringEntity(this.data.toString(), "UTF-8"));
