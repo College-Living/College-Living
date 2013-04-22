@@ -107,12 +107,14 @@ public class Settings extends Activity {
             public void onFocusChange(View v, boolean hasFocus) {
             	EditText email = (EditText) v;
         		String oldemail = new String();
-            	if(!hasFocus){
+        		int init=0;
+            	if((!hasFocus) && init==1){
                 	String newemail = email.getText().toString();
                 	if(!oldemail.equals(newemail)){
                 		update_setting("Email", newemail);
                 	}
                 }else{
+                	init=1;
                 	oldemail = email.getText().toString();
                 }
             }
