@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -43,22 +44,14 @@ public class RoomieScreen extends LocationActivity {
 	
 	public void loadRoomieInfo(String displayName, String email, String phone, String about, String photoUrl) {
 		TextView tv_displayName = (TextView) findViewById(R.id.display_name);
-		TextView tv_email = (TextView) findViewById(R.id.profile_email);
-		TextView tv_phone = (TextView) findViewById(R.id.profile_pnumber);
+		/* TextView tv_email = (TextView) findViewById(R.id.profile_email);
+		TextView tv_phone = (TextView) findViewById(R.id.profile_pnumber); */
 		TextView tv_about = (TextView) findViewById(R.id.profile_about_me);
 		ImageView img = (ImageView) findViewById(R.id.profile_img);
-		if(email.equals(""))
-			tv_email.setText(Html.fromHtml("<i>Not provided</i>"));
-		else
-			tv_email.setText(email);
 		if(displayName.equals(""))
 			tv_displayName.setText(Html.fromHtml("<i>Not provided</i>"));
 		else
 			tv_displayName.setText(displayName);
-		if(phone.equals(""))
-			tv_phone.setText(Html.fromHtml("<i>Not provided</i>"));
-		else
-			tv_phone.setText(phone);
 		if(about.equals(""))
 			tv_about.setText(Html.fromHtml("<i>Not provided</i>"));
 		else
@@ -70,6 +63,10 @@ public class RoomieScreen extends LocationActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.menu_roomie_screen, menu);
+	    if(roomie.phone.equals(""))
+	    	menu.removeItem(R.id.phone);
+	    if(roomie.email.equals(""))
+	    	menu.removeItem(R.id.email);
 	    return true;
 	}
 	
@@ -121,6 +118,20 @@ public class RoomieScreen extends LocationActivity {
 		new ServerPost(json, callback).execute("/collegeliving/post/block_user.php");
 	}
 	
+	private void callUser() {
+		 String uri = "tel:" + roomie.phone.trim() ;
+		 Intent intent = new Intent(Intent.ACTION_DIAL);
+		 intent.setData(Uri.parse(uri));
+		 startActivity(intent);
+	}
+	
+	private void emailUser() {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("plain/text");
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { roomie.email });
+		startActivity(Intent.createChooser(intent, ""));
+	}
+	
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
 	    switch (item.getItemId()) 
@@ -130,6 +141,12 @@ public class RoomieScreen extends LocationActivity {
 	        break;
 	    case R.id.block:
 	    	confirmBlockUser();
+	    	break;
+	    case R.id.phone:
+	    	callUser();
+	    	break;
+	    case R.id.email:
+	    	emailUser();
 	    	break;
 	    case R.id.message:
 	    	startChat();

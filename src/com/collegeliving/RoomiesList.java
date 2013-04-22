@@ -33,7 +33,10 @@ public class RoomiesList extends MessageSyncActivity {
 		ArrayList<RoomieRecord> records = db.getRoomies(this.getLoggedInUser());
 		for(int i = 0; i < records.size(); i++) {
 			RoomieRecord record = records.get(i);
-			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", record.unreadCount+"", record.thumbnailURL));
+			String secondary = "";
+			if(record.unreadCount == 1) secondary = "<b>"+record.unreadCount+" New Message";
+			else if(record.unreadCount > 1) secondary = "<b>"+record.unreadCount+" New Messages";
+			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", secondary, record.thumbnailURL));
 		}
 		GridView grid = (GridView) findViewById(R.id.grid);
 		grid.setAdapter(null);

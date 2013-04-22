@@ -6,151 +6,161 @@
     android:background="@color/black"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/Email_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="E-mail"
-            android:textColor="@color/white"
-            android:inputType="textEmailAddress" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/Email_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Email"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/Email_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:hint="E-mail"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                    <requestFocus />
+                </EditText>
 
-        <EditText
-            android:id="@+id/Radius_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="Search Radius"
-            android:inputType="number"
-            android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/Email_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Email"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/Radius_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Radius"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/Radius_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:hint="Search Radius"
+                    android:inputType="number"
+                    android:textColor="@color/white" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                <TextView
+                    android:id="@+id/Radius_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Radius"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/DisplayName_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Display Name"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/DisplayName_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/DisplayName_textview"
-            android:ems="10"
-            android:hint="Displayname"
-            android:inputType="textPersonName"
-            android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/DisplayName_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Display Name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/DisplayName_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/DisplayName_textview"
+                    android:ems="10"
+                    android:hint="Displayname"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/Password_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Password"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/Password_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Password"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/Password_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="*******"
-            android:inputType="textPassword"
-            android:textColor="@color/white" />
+                <EditText
+                    android:id="@+id/Password_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:hint="*******"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                <TextView
+                    android:id="@+id/AboutMe_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="About Me"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/AboutMe_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="About Me"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/AboutMe_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:hint="About Me"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
-        <EditText
-            android:id="@+id/AboutMe_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="About Me"
-            android:textColor="@color/white" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    </RelativeLayout>
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+                <Button
+                    android:id="@+id/logout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Log out" />
+            </RelativeLayout>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="Log out" />
-
-    </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>

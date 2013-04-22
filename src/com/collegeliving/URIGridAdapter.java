@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +84,7 @@ public class URIGridAdapter extends BaseAdapter {
 			secondary_info.setVisibility(View.GONE);
 		else {
 			secondary_info.setVisibility(View.VISIBLE);
-			secondary_info.setText(tiles.get(position).getSecondaryInfo());
+			secondary_info.setText(Html.fromHtml(tiles.get(position).getSecondaryInfo()));
 		}
 
 		return frame;
@@ -125,8 +126,22 @@ public class URIGridAdapter extends BaseAdapter {
 		private Bitmap loadImage(String url) {
 			Bitmap image = null;
 			try {
+				int TILE_SIZE = 200;
+				/* InputStream tmp_stream = new java.net.URL(url).openStream();
+				BitmapFactory.Options tmp = new BitmapFactory.Options();
+				tmp.inJustDecodeBounds = true;
+				BitmapFactory.decodeStream(tmp_stream, null, tmp);
+				int width = tmp.outWidth; int height = tmp.outHeight;
+				int scale = 1;
+				while(width/scale/2 >= TILE_SIZE && height/scale/2 >= TILE_SIZE)
+					scale *= 2;
+				
+				BitmapFactory.Options o = new BitmapFactory.Options();
+				o.inSampleSize = scale;
+				o.inPurgeable = true; // well, we tried */
 				InputStream in = new java.net.URL(url).openStream();
 				image = BitmapFactory.decodeStream(in);
+				
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

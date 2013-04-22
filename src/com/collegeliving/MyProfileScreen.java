@@ -1,5 +1,6 @@
 package com.collegeliving;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -12,10 +13,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,11 +76,9 @@ public class MyProfileScreen extends LocationActivity{
 		  Intent intent = new Intent();
 	      intent.setType("image/*");
 	      intent.setAction(Intent.ACTION_GET_CONTENT);
-
 	      startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
-	
-	      Bitmap bitmap=null;
 	}
+	
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 
@@ -86,34 +87,48 @@ public class MyProfileScreen extends LocationActivity{
 	        if (requestCode == SELECT_PICTURE) 
 	        {
 	        	 Bitmap bmp;
-	        	 BitmapFactory.Options o = new BitmapFactory.Options();
-	        	 o.inJustDecodeBounds = true;
-	        	 
-	        	 InputStream imageStream = null;
+	        	 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        	 try {
-					imageStream = getContentResolver().openInputStream(data.getData());
-					BitmapFactory.decodeStream(imageStream, null, o);
-		        	 int width = o.outWidth; int height = o.outHeight;
-		        	 int scale = 1;
-		        	 while(true) {
-		        		 if(width/2 < 400 || height/2 < 400) break;
-		        		 width /= 2;
-		        		 height /=2;
-		        		 scale *= 2;
-		        	 }
-		        	 BitmapFactory.Options o2 = new BitmapFactory.Options();
-		        	 o2.inSampleSize = scale; 
-		        	
-		        	 
-		        	 bmp = BitmapFactory.decodeStream(imageStream, null, o2);
-
-		             img.setImageBitmap(bmp); 
+					BitmapFactory.Options tmp = new BitmapFactory.Options();
+					tmp.inJustDecodeBounds = true;
+					BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()), null, tmp);
+					
+					int width = tmp.outWidth; int height = tmp.outHeight;
+					int scale = 1;
+					while(width/scale/2 >= 500 && height/scale/2 >= 500)
+						scale *= 2;
+					BitmapFactory.Options o = new BitmapFactory.Options();
+					o.inSampleSize = scale;
+					o.inPurgeable = true;
+					bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()), null, o);
+					bmp.compress(CompressFormat.JPEG, 100, baos);
+					byte[] imageBytes = baos.toByteArray();
+					String img = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+					uploadImage(img);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 	        	 
 	         }
 	    }
+	}
+	
+	private void uploadImage(String img) {
+		JSONObject json = new JSONObject();
+		try {
+			json.put("img", img);
+			json.put("user_id", this.getLoggedInUser());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		ServerCallback callback = new ServerCallback() {
+			@Override
+			public void Run(String p) {
+				loadMyProfile();
+			}
+			
+		};
+		new ServerPost(json, callback).execute("/collegeliving/post/thumbnail.php");
 	}
 	
 	private void loadMyProfile(){
