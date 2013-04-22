@@ -1,14 +1,25 @@
 package com.collegeliving;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +36,8 @@ public class MyProfileScreen extends LocationActivity{
 	TextView displayname_content;
 	ImageView img;
 
+	private static final int SELECT_PICTURE = 100;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,6 +51,14 @@ public class MyProfileScreen extends LocationActivity{
 		aboutme_content = (TextView) findViewById(R.id.myprofile_about_me);
 		displayname_content = (TextView) findViewById(R.id.myprofile_display_name);
 		img = (ImageView) findViewById(R.id.profile_img);
+		img.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				MyProfileScreen.this.openGallery();
+			}
+			
+		});
 	}
 	protected void onResume(){
 		super.onResume();
@@ -45,6 +66,54 @@ public class MyProfileScreen extends LocationActivity{
 		set_email_toggle();
 		set_phone_toggle();
 		set_aboutme_toggle();
+	}
+	
+	
+	private void openGallery(){
+		  Intent intent = new Intent();
+	      intent.setType("image/*");
+	      intent.setAction(Intent.ACTION_GET_CONTENT);
+
+	      startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
+	
+	      Bitmap bitmap=null;
+	}
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+
+	    if (resultCode == Activity.RESULT_OK)
+	    {
+	        if (requestCode == SELECT_PICTURE) 
+	        {
+	        	 Bitmap bmp;
+	        	 BitmapFactory.Options o = new BitmapFactory.Options();
+	        	 o.inJustDecodeBounds = true;
+	        	 
+	        	 InputStream imageStream = null;
+	        	 try {
+					imageStream = getContentResolver().openInputStream(data.getData());
+					BitmapFactory.decodeStream(imageStream, null, o);
+		        	 int width = o.outWidth; int height = o.outHeight;
+		        	 int scale = 1;
+		        	 while(true) {
+		        		 if(width/2 < 400 || height/2 < 400) break;
+		        		 width /= 2;
+		        		 height /=2;
+		        		 scale *= 2;
+		        	 }
+		        	 BitmapFactory.Options o2 = new BitmapFactory.Options();
+		        	 o2.inSampleSize = scale; 
+		        	
+		        	 
+		        	 bmp = BitmapFactory.decodeStream(imageStream, null, o2);
+
+		             img.setImageBitmap(bmp); 
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+	        	 
+	         }
+	    }
 	}
 	
 	private void loadMyProfile(){
