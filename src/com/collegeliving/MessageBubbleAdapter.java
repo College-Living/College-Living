@@ -68,7 +68,6 @@ public class MessageBubbleAdapter extends BaseAdapter {
 			if(position > 0) {
 				timestamp_prev = db_format.parse(messages.get(position-1).date);
 				time_diff = (timestamp.getTime() - timestamp_prev.getTime())/1000/60;
-				Log.i("timediff", "timediff between "+timestamp.toString()+" AND "+timestamp_prev.toString()+" is "+time_diff);
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();

@@ -22,9 +22,7 @@ import android.widget.Toast;
 public class RoomiesList extends MessageSyncActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_grid);
-		getRoomies();
 	}
 	
 	private void draw() {
@@ -76,7 +74,6 @@ public class RoomiesList extends MessageSyncActivity {
 				DatabaseHelper db = DatabaseHelper.getInstance(RoomiesList.this);
 				db.clearRoomies();
 				try {
-					Log.i("json", response);
 					JSONObject json = new JSONObject(response);
 					boolean success = json.getBoolean("success");
 					if(success) {

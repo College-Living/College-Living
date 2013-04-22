@@ -162,8 +162,20 @@ public class URIGridAdapter extends BaseAdapter {
 		private Bitmap loadImage(String url) {
 			Bitmap image = null;
 			try {
+				int TILE_SIZE = 100;
+				InputStream tmp_stream = new java.net.URL(url).openStream();
+				BitmapFactory.Options tmp = new BitmapFactory.Options();
+				tmp.inJustDecodeBounds = true;
+				BitmapFactory.decodeStream(tmp_stream, null, tmp);
+				int width = tmp.outWidth; int height = tmp.outHeight;
+				int scale = 1;
+				while(width/scale/2 >= TILE_SIZE && height/scale/2 >= TILE_SIZE)
+					scale *= 2;
+				BitmapFactory.Options o = new BitmapFactory.Options();
+				o.inSampleSize = scale;
+				o.inPurgeable = true;
 				InputStream in = new java.net.URL(url).openStream();
-				image = BitmapFactory.decodeStream(in);
+				image = BitmapFactory.decodeStream(in, null, o);
 				
 			} catch (MalformedURLException e) {
 				e.printStackTrace();

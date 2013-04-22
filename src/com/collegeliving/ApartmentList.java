@@ -27,7 +27,7 @@ public class ApartmentList extends LocationActivity {
 		/*getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);*/
 		setContentView(R.layout.activity_grid);
-		draw();
+		getLocalApartments();
 	}
 	
 	private void draw() {
@@ -52,12 +52,13 @@ public class ApartmentList extends LocationActivity {
 		});
 		URIGridAdapter adapter = (URIGridAdapter) grid.getAdapter();
 		if(adapter == null) {
+			Log.i("adp", "making new adapter");
+			Log.i("tile_size", tiles.size()+"");
 			adapter = new URIGridAdapter(this, tiles);
 			grid.setAdapter(adapter);
 		} else {
 			adapter.updateData(tiles);
 		}
-		
 	}
 	
 	private void getLocalApartments() {
