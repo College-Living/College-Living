@@ -11,7 +11,8 @@
         android:horizontalSpacing="0dp"
         android:numColumns="2"
         android:stretchMode="none"
-        android:verticalSpacing="0dp" >
+        android:verticalSpacing="0dp" 
+        android:animateLayoutChanges="true" >
     </GridView>
 
 </RelativeLayout>
