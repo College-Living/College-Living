@@ -74,7 +74,7 @@ public class ApartmentScreen extends LocationActivity {
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu_roomie_screen, menu);
+	    inflater.inflate(R.menu.menu_apartment_screen, menu);
 	    return true;
 	}
 	

@@ -8,13 +8,6 @@
         android:icon="@drawable/phone"/>
     
     <item
-        android:id="@+id/message"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:title="Message"
-        android:icon="@drawable/message"/>
-    
-    <item
         android:id="@+id/email"
         android:orderInCategory="98"
         android:showAsAction="always"
