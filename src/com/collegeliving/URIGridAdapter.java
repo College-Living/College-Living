@@ -40,7 +40,6 @@ public class URIGridAdapter extends BaseAdapter {
 		for(int i = 0; i < tiles.size(); i++) {
 			store.put(tiles.get(i).id, new ImageThumb(tiles.get(i).id, tiles.get(i).getImage()));
 		}
-		new DownloadImagesTask().execute(store);
 	}
 	
 	@Override
@@ -95,16 +94,23 @@ public class URIGridAdapter extends BaseAdapter {
 		private String url = null;
 		private Bitmap image = null;
 		private int id = 0;
+		private DownloadImageTask download;
 		public int keep = 0;
 		
 		
 		public ImageThumb(int id, String url) {
 			this.setId(id);
 			this.setUrl(url);
+			download = new DownloadImageTask();
+			download.execute(this);
 		}
 
 		public void setId(int id) {
 			this.id = id;
+		}
+		
+		public AsyncTask.Status getStatus() {
+			return download.getStatus();
 		}
 		
 		public int getId() {
@@ -142,33 +148,20 @@ public class URIGridAdapter extends BaseAdapter {
 			}
 			store.get(tile.id).keep = 1;
 		}
-		for(Map.Entry<Integer, ImageThumb> entry : store.entrySet()) {
-			if(entry.getValue().keep != 1)
-				store.remove(entry.getKey());
-			else
-				entry.getValue().keep = 0;
-		}
+		//for(Map.Entry<Integer, ImageThumb> entry : store.entrySet()) {
+		//	if(entry.getValue().keep != 1)
+		//		store.remove(entry.getKey());
+		//	else
+		//		entry.getValue().keep = 0;
+		//}
 		notifyUpdate();
-		new DownloadImagesTask().execute(store);
 	}
 	
-	private class DownloadImagesTask extends AsyncTask<ConcurrentHashMap<Integer, ImageThumb>, Void, Void> {
+	private class DownloadImageTask extends AsyncTask<ImageThumb, Void, Void> {
 
 		private Bitmap loadImage(String url) {
 			Bitmap image = null;
 			try {
-				/* InputStream tmp_stream = new java.net.URL(url).openStream();
-				BitmapFactory.Options tmp = new BitmapFactory.Options();
-				tmp.inJustDecodeBounds = true;
-				BitmapFactory.decodeStream(tmp_stream, null, tmp);
-				int width = tmp.outWidth; int height = tmp.outHeight;
-				int scale = 1;
-				while(width/scale/2 >= TILE_SIZE && height/scale/2 >= TILE_SIZE)
-					scale *= 2;
-				
-				BitmapFactory.Options o = new BitmapFactory.Options();
-				o.inSampleSize = scale;
-				o.inPurgeable = true; // well, we tried */
 				InputStream in = new java.net.URL(url).openStream();
 				image = BitmapFactory.decodeStream(in);
 				
@@ -186,17 +179,12 @@ public class URIGridAdapter extends BaseAdapter {
 		}
 		
 		@Override
-		protected Void doInBackground(ConcurrentHashMap<Integer,ImageThumb>... images) {
-			ConcurrentHashMap<Integer, ImageThumb> map = images[0];
-			for(Map.Entry<Integer, ImageThumb> entry : map.entrySet()) {
-				if(entry.getValue().getImage() != null) continue;
-				entry.getValue().setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/"+entry.getValue().url));
-				publishProgress();
-			}
+		protected Void doInBackground(ImageThumb... images) {
+			ImageThumb image = images[0];
+			image.setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/"+image.url));
+			publishProgress();
 			return null;
 		}
-				
-		
 	}
-
+		
 }

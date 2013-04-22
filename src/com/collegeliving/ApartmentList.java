@@ -50,8 +50,14 @@ public class ApartmentList extends LocationActivity {
 				startActivity(aptScreen);
 			}
 		});
-		URIGridAdapter adapter = new URIGridAdapter(this, tiles);
-		grid.setAdapter(adapter);
+		URIGridAdapter adapter = (URIGridAdapter) grid.getAdapter();
+		if(adapter == null) {
+			adapter = new URIGridAdapter(this, tiles);
+			grid.setAdapter(adapter);
+		} else {
+			adapter.updateData(tiles);
+		}
+		
 	}
 	
 	private void getLocalApartments() {
