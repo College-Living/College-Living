@@ -25,6 +25,7 @@ public class Settings extends Activity {
 		setRadiusOnchange();
 		setDisplayNameOnchange();
 		setPasswordOnchange();
+		setAboutMeOnchange();
 	}
 	
 	private void update_setting(String field, String value){
@@ -79,12 +80,15 @@ public class Settings extends Activity {
 						String email = json.getString("email");
 						String displayname = json.getString("displayname");
 						String radius = json.getString("radius");
+						String aboutme = json.getString("aboutme");
 						EditText email_setting = (EditText) findViewById(R.id.Email_setting);
 						email_setting.setText(email);
 						EditText radius_setting = (EditText) findViewById(R.id.Radius_setting);
 						radius_setting.setText(radius);
 						EditText displayname_setting = (EditText) findViewById(R.id.DisplayName_setting);
 						displayname_setting.setText(displayname);
+						EditText AboutMe_setting = (EditText) findViewById(R.id.AboutMe_setting);
+						AboutMe_setting.setText(aboutme);
 					}else{
 						Toast.makeText(getApplicationContext(), "Can't connect to the server", Toast.LENGTH_SHORT).show();
 					}
@@ -110,6 +114,24 @@ public class Settings extends Activity {
                 	}
                 }else{
                 	oldemail = email.getText().toString();
+                }
+            }
+        });
+	}
+	public void setAboutMeOnchange(){
+		EditText AboutMe_setting = (EditText) findViewById(R.id.AboutMe_setting);
+		AboutMe_setting.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+            	EditText AboutMe = (EditText) v;
+        		String oldAboutMe = new String();
+            	if(!hasFocus){
+                	String newAboutMe = AboutMe.getText().toString();
+                	if(!oldAboutMe.equals(newAboutMe)){
+                		update_setting("AboutMe", newAboutMe);
+                	}
+                }else{
+                	oldAboutMe = AboutMe.getText().toString();
                 }
             }
         });
