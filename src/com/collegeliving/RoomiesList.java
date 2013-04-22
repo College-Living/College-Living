@@ -39,7 +39,6 @@ public class RoomiesList extends MessageSyncActivity {
 			tiles.add(new Tile(record.uID, record.displayName, Math.round(record.compatScore*100)+"% compatible", secondary, record.thumbnailURL));
 		}
 		GridView grid = (GridView) findViewById(R.id.grid);
-		grid.setAdapter(null);
 		grid.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				URIGridAdapter adapter = (URIGridAdapter) parent.getAdapter();
@@ -51,8 +50,13 @@ public class RoomiesList extends MessageSyncActivity {
 				startActivity(roomieScreen);
 			}
 		});
-		URIGridAdapter adapter = new URIGridAdapter(this, tiles);
-		grid.setAdapter(adapter);
+		URIGridAdapter adapter = (URIGridAdapter) grid.getAdapter();
+		if(adapter == null) {
+			adapter = new URIGridAdapter(this, tiles);
+			grid.setAdapter(adapter);
+		} else {
+			adapter.updateData(tiles);
+		}
 	}
 	
 	

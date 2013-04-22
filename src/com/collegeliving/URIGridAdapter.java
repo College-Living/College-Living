@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,27 +28,24 @@ import android.widget.TextView;
 
 public class URIGridAdapter extends BaseAdapter {
 
-	private ImageThumb images[];
 	private ArrayList<Tile> tiles;
 	private LayoutInflater inflater;
-	private DownloadImagesTask downloadTask;
 	private Context context;
-	
+	private ConcurrentHashMap<Integer, ImageThumb> store;
 	public URIGridAdapter(Context c, ArrayList<Tile> tiles) {
 		this.context = c;
 		this.inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.images = new ImageThumb[tiles.size()];
+		this.store = new ConcurrentHashMap<Integer, ImageThumb>();
 		this.tiles = tiles;
 		for(int i = 0; i < tiles.size(); i++) {
-			images[i] = new ImageThumb(tiles.get(i).getImage(), null);
+			store.put(tiles.get(i).id, new ImageThumb(tiles.get(i).id, tiles.get(i).getImage()));
 		}
-		downloadTask = new DownloadImagesTask();
-		downloadTask.execute(images);
+		new DownloadImagesTask().execute(store);
 	}
 	
 	@Override
 	public int getCount() {
-		return images.length;
+		return tiles.size();
 	}
 
 	@Override
@@ -67,8 +68,8 @@ public class URIGridAdapter extends BaseAdapter {
 		TextView title = (TextView) frame.findViewById(R.id.info_title);
 		TextView primary_info = (TextView) frame.findViewById(R.id.primary_info);
 		TextView secondary_info = (TextView) frame.findViewById(R.id.secondary_info);
-		
-		ImageThumb img = images[position];
+		Tile tile = tiles.get(position);
+		ImageThumb img = store.get(tile.id);
 		if(img.image != null) {
 			view.setImageBitmap(img.image);
 		} else {
@@ -93,10 +94,21 @@ public class URIGridAdapter extends BaseAdapter {
 	private class ImageThumb {
 		private String url = null;
 		private Bitmap image = null;
+		private int id = 0;
+		public int keep = 0;
 		
-		public ImageThumb(String url, Bitmap image) {
+		
+		public ImageThumb(int id, String url) {
+			this.setId(id);
 			this.setUrl(url);
-			this.setImage(image);
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+		
+		public int getId() {
+			return id;
 		}
 
 		public String getUrl() {
@@ -121,12 +133,30 @@ public class URIGridAdapter extends BaseAdapter {
 		this.notifyDataSetChanged();
 	}
 	
-	private class DownloadImagesTask extends AsyncTask<ImageThumb, Void, Void> {
+	public void updateData(ArrayList<Tile> tiles) {
+		this.tiles = tiles;
+		for(int i = 0; i < tiles.size(); i++) {
+			Tile tile = tiles.get(i);
+			if(!store.containsKey(tile.id)) {
+				store.put(tile.id, new ImageThumb(tile.id, tile.imageURL));
+			}
+			store.get(tile.id).keep = 1;
+		}
+		for(Map.Entry<Integer, ImageThumb> entry : store.entrySet()) {
+			if(entry.getValue().keep != 1)
+				store.remove(entry.getKey());
+			else
+				entry.getValue().keep = 0;
+		}
+		notifyUpdate();
+		new DownloadImagesTask().execute(store);
+	}
+	
+	private class DownloadImagesTask extends AsyncTask<ConcurrentHashMap<Integer, ImageThumb>, Void, Void> {
 
 		private Bitmap loadImage(String url) {
 			Bitmap image = null;
 			try {
-				int TILE_SIZE = 200;
 				/* InputStream tmp_stream = new java.net.URL(url).openStream();
 				BitmapFactory.Options tmp = new BitmapFactory.Options();
 				tmp.inJustDecodeBounds = true;
@@ -156,11 +186,11 @@ public class URIGridAdapter extends BaseAdapter {
 		}
 		
 		@Override
-		protected Void doInBackground(ImageThumb... images) {
-			for(int i = 0; i < images.length; i++) {
-				ImageThumb img = images[i];
-				if(img.getImage() != null) continue;
-				img.setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/"+img.url));
+		protected Void doInBackground(ConcurrentHashMap<Integer,ImageThumb>... images) {
+			ConcurrentHashMap<Integer, ImageThumb> map = images[0];
+			for(Map.Entry<Integer, ImageThumb> entry : map.entrySet()) {
+				if(entry.getValue().getImage() != null) continue;
+				entry.getValue().setImage(loadImage("http://"+ServerPost.server_ip+"/collegeliving/"+entry.getValue().url));
 				publishProgress();
 			}
 			return null;
